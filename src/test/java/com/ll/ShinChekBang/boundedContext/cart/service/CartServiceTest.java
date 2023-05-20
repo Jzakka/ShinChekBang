@@ -46,4 +46,29 @@ class CartServiceTest {
         assertThat(addResult.isSuccess()).isTrue();
         assertThat(addResult.getData().getCartBooks().get(0).getPriceSum()).isEqualTo(book1.getPrice() * 5);
     }
+
+    @Test
+    void 재고없는_물건_담기는_안돼() {
+        Member user1 = memberRepository.findByUsername("user1").get();
+        Book book3 = bookRepository.findByTitle("책3").get(0);
+        Cart cart = user1.getCart();
+
+        RsData<Cart> addResult = cartService.addToCart(cart, book3, 5);
+        assertThat(addResult.isFail()).isTrue();
+    }
+
+    @Test
+    void 이미_담긴_물건에_더_담기() {
+        Member user1 = memberRepository.findByUsername("user1").get();
+        Book book1 = bookRepository.findByTitle("책1").get(0);
+        Book book2 = bookRepository.findByTitle("책2").get(0);
+        Cart cart = user1.getCart();
+
+        cartService.addToCart(cart, book1, 5);
+        cartService.addToCart(cart, book2, 5);
+        RsData<Cart> additional = cartService.addToCart(cart, book1, 5);
+        assertThat(additional.isSuccess()).isTrue();
+        assertThat(additional.getData().getCartBooks().get(0).getQuantity()).isEqualTo(10);
+        assertThat(additional.getData().getTotalPrice()).isEqualTo(book1.getPrice() * 10 + book2.getPrice() * 5);
+    }
 }

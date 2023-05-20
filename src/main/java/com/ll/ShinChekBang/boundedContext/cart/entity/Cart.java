@@ -32,9 +32,10 @@ public class Cart extends BaseEntity {
     public void addBook(Book book, int quantity) {
         if (cartBooks.contains(CartBook.of(this, book))) {
             int idx = cartBooks.indexOf(CartBook.of(this, book));
-            cartBooks.get(idx).setQuantity(quantity);
-            cartBooks.get(idx).setPriceSum(quantity * book.getPrice());
+            cartBooks.get(idx).setQuantity(cartBooks.get(idx).getQuantity() + quantity);
+            cartBooks.get(idx).setPriceSum(cartBooks.get(idx).getQuantity() * book.getPrice());
         }
         cartBooks.add(CartBook.of(this, book, quantity));
+        totalPrice += book.getPrice() * quantity;
     }
 }
