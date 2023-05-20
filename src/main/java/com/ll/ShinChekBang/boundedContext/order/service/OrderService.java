@@ -7,7 +7,7 @@ import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
 import com.ll.ShinChekBang.boundedContext.cart.entity.CartBook;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
-import com.ll.ShinChekBang.boundedContext.order.entity.OrderItem;
+import com.ll.ShinChekBang.boundedContext.order.entity.OrderBook;
 import com.ll.ShinChekBang.boundedContext.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class OrderService {
             }
 
             order.getOrderItems().add(
-                    OrderItem.builder()
+                    OrderBook.builder()
                             .order(order)
                             .book(book)
                             .quantity(quantity)

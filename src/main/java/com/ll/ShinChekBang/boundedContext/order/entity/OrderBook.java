@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class OrderItem extends BaseEntity {
+public class OrderBook extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "orderId")
     private Order order;

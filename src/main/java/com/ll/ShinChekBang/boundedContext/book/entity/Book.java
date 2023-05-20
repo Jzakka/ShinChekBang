@@ -1,12 +1,15 @@
 package com.ll.ShinChekBang.boundedContext.book.entity;
 
 import com.ll.ShinChekBang.base.entity.BaseEntity;
+import com.ll.ShinChekBang.boundedContext.category.entity.Category;
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,4 +22,7 @@ public class Book extends BaseEntity {
     private int price;
     @Setter
     private int stock;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Category> categories = new ArrayList<>();
 }
