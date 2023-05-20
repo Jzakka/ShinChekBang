@@ -22,6 +22,8 @@ public class NotProd {
             Book book1 = bookService.addNewBook("책1", "글쓴이", 100).getData();
             Book book2 = bookService.addNewBook("책2", "글쓴이", 1000).getData();
             Book book3 = bookService.addNewBook("책3", "글쓴이", 10000).getData();
+            bookService.store(book1, Integer.MAX_VALUE);
+            bookService.store(book2, 5);
         };
     }
 }

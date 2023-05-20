@@ -1,6 +1,8 @@
 package com.ll.ShinChekBang.boundedContext.member.service;
 
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
+import com.ll.ShinChekBang.boundedContext.cart.repository.CartRepository;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     public RsData<Member> join(String username, String password, String passwordConfirm, String email) {
         Optional<Member> byUsername = memberRepository.findByUsername(username);
@@ -35,7 +38,14 @@ public class MemberService {
                 .password(password)
                 .email(email)
                 .build();
+        Cart cart = Cart.builder()
+                .member(newMember)
+                .build();
+        newMember.setCart(cart);
+
         Member joinedMember = memberRepository.save(newMember);
+        cartRepository.save(cart);
+
         return RsData.of("S-1", "회원가입되었습니다.", joinedMember);
     }
 }

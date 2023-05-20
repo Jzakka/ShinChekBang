@@ -26,7 +26,7 @@ class BookServiceTest {
 
     @Test
     void 책_재고_증가() {
-        Book book1 = bookService.findByTitle("책1").getData().get(0);
+        Book book1 = bookService.findByTitle("책3").getData().get(0);
         Book book = bookService.store(book1, 100).getData();
         assertThat(book.getStock()).isEqualTo(100);
     }
