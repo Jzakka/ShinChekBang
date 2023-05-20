@@ -4,6 +4,7 @@ import com.ll.ShinChekBang.base.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -15,5 +16,7 @@ import lombok.experimental.SuperBuilder;
 public class Book extends BaseEntity {
     private String title;
     private String author;
-    private Integer price;
+    private int price;
+    @Setter
+    private int stock;
 }
