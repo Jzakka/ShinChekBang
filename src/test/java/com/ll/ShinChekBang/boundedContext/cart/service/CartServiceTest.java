@@ -3,21 +3,16 @@ package com.ll.ShinChekBang.boundedContext.cart.service;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
-import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.repository.MemberRepository;
-import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")

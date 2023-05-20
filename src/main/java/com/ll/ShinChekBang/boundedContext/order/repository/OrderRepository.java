@@ -1,0 +1,7 @@
+package com.ll.ShinChekBang.boundedContext.order.repository;
+
+import com.ll.ShinChekBang.boundedContext.order.entity.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+}

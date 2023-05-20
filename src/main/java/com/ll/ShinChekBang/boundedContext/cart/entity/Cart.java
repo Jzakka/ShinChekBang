@@ -2,7 +2,6 @@ package com.ll.ShinChekBang.boundedContext.cart.entity;
 
 import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
-import com.ll.ShinChekBang.boundedContext.cartBook.entity.CartBook;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
