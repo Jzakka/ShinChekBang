@@ -35,6 +35,13 @@ public class BookService {
         return RsData.of("S-5", "%d번 상품의 재고가 %d개가 되었습니다.".formatted(book.getId(), book.getStock()), storedBook);
     }
 
+    @Transactional
+    public RsData<Book> adjustStock(Book book, int stock) {
+        book.setStock(stock);
+        Book adjustedBook = bookRepository.save(book);
+        return RsData.successOf(adjustedBook);
+    }
+
     public RsData<List<Book>> findByTitle(String title) {
         return RsData.successOf(bookRepository.findByTitle(title));
     }

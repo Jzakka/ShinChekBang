@@ -48,4 +48,16 @@ class OrderServiceTest {
         Book book2 = bookService.findByTitle("책2").getData().get(0);
         assertThat(order.getPaymentAccount()).isEqualTo(book1.getPrice() * 10 + book2.getPrice() * 5);
     }
+
+    @Test
+    void 주문도중_재고가_줄어서_주문실패() {
+        Member user1 = memberRepository.findByUsername("user1").get();
+        Book book2 = bookService.findByTitle("책2").getData().get(0);
+
+        //재고를 줄임
+        bookService.adjustStock(book2, 0);
+
+        RsData<Order> orderResult = orderService.order(user1);
+        assertThat(orderResult.isFail()).isTrue();
+    }
 }
