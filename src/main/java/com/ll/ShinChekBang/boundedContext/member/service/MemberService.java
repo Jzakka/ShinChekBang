@@ -6,6 +6,7 @@ import com.ll.ShinChekBang.boundedContext.cart.repository.CartRepository;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RsData<Member> join(String username, String password, String passwordConfirm, String email) {
         Optional<Member> byUsername = memberRepository.findByUsername(username);
@@ -33,9 +35,11 @@ public class MemberService {
             return RsData.of("F-3", "비밀번호를 다시 확인해주세요.");
         }
 
+        String cryptPassword = passwordEncoder.encode(password);
+
         Member newMember = Member.builder()
                 .username(username)
-                .password(password)
+                .password(cryptPassword)
                 .email(email)
                 .build();
         Cart cart = Cart.builder()

@@ -19,6 +19,7 @@ public class Cart extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "memberId")
     @Setter
+    @ToString.Exclude
     Member member;
     private int totalPrice;
 

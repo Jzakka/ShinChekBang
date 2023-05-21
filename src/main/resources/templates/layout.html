@@ -1,0 +1,18 @@
+<html layout:decorate="~{common/layout.html}">
+  <body>
+    <header layout:fragment="header" class="sticky top-0 z-50">
+      <div class="flex justify-between">
+        <div>
+          <img th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
+        </div>
+        <form th:action="@{/book/search}" method="post">
+          <input type="text">
+        </form>
+        <div>알림</div>
+        <div>장바구니</div>
+        <div>서재</div>
+        <div>내 정보</div>
+      </div>
+    </header>
+  </body>
+</html>
