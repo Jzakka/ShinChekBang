@@ -1,17 +1,19 @@
 <html layout:decorate="~{common/layout.html}">
   <body>
     <header layout:fragment="header" class="sticky top-0 z-50">
-      <div class="flex justify-between">
+      <div class="items-end grid grid-flow-col justify-stretch m-3 max-w-4xl mx-auto">
         <div>
           <img th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
         </div>
-        <form th:action="@{/book/search}" method="post">
-          <input type="text">
-        </form>
-        <div>알림</div>
-        <div>장바구니</div>
-        <div>서재</div>
-        <div>내 정보</div>
+        <div>
+            <input type="text" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
+        </div>
+        <div class="flex justify-between">
+          <div>알림</div>
+          <div>장바구니</div>
+          <div>서재</div>
+          <div>내 정보</div>
+        </div>
       </div>
     </header>
   </body>
