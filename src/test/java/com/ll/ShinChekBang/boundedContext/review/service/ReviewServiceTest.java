@@ -33,4 +33,13 @@ class ReviewServiceTest {
 
         assertThat(reviewResult.isSuccess()).isTrue();
     }
+
+    @Test
+    void 리뷰작성_실패() {
+        Member member2 = memberService.findByUsername("user2").getData();
+        Book book2 = bookService.findByTitle("책2").getData().get(0);
+        RsData<Review> reviewRsData = reviewService.review(member2, book2, 2.3f, "형편없는 책이에요");
+
+        assertThat(reviewRsData.isFail()).isTrue();
+    }
 }
