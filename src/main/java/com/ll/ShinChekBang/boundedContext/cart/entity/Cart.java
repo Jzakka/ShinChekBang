@@ -4,10 +4,7 @@ import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ public class Cart extends BaseEntity {
     private int totalPrice;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     List<CartBook> cartBooks = new ArrayList<>();
 
     public void addBook(Book book, int quantity) {

@@ -48,4 +48,9 @@ public class MemberService {
 
         return RsData.of("S-1", "회원가입되었습니다.", joinedMember);
     }
+
+    public RsData<Member> findByUsername(String name) {
+        Optional<Member> optionalMember = memberRepository.findByUsername(name);
+        return optionalMember.map(RsData::successOf).orElseGet(() -> RsData.failOf(null));
+    }
 }
