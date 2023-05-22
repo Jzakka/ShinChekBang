@@ -1,10 +1,11 @@
-package com.ll.ShinChekBang.base.file;
+package com.ll.ShinChekBang.base.file.service;
 
 import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.base.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional
-public class FileStore {
+public class FileService {
     @Value("${file.path}")
     private String filePath;
     private final FileRepository fileRepository;

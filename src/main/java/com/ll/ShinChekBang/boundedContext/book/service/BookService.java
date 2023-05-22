@@ -1,6 +1,6 @@
 package com.ll.ShinChekBang.boundedContext.book.service;
 
-import com.ll.ShinChekBang.base.file.FileStore;
+import com.ll.ShinChekBang.base.file.service.FileService;
 import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
@@ -18,12 +18,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class BookService {
     private final BookRepository bookRepository;
-    private final FileStore fileStore;
+    private final FileService fileService;
 
     @Transactional
     public RsData<Book> addNewBook(String title, String author, Integer price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
-        UploadFile thumbnailFile = fileStore.storeFile(thumbnail);
-        List<UploadFile> imageFiles = fileStore.storeFile(images);
+        UploadFile thumbnailFile = fileService.storeFile(thumbnail);
+        List<UploadFile> imageFiles = fileService.storeFile(images);
 
         Book book = Book.builder()
                 .title(title)

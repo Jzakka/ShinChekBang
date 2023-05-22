@@ -1,6 +1,6 @@
 package com.ll.ShinChekBang.base.file.controller;
 
-import com.ll.ShinChekBang.base.file.FileStore;
+import com.ll.ShinChekBang.base.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -13,10 +13,10 @@ import java.net.MalformedURLException;
 @RestController
 @RequiredArgsConstructor
 public class FileController {
-    private final FileStore fileStore;
+    private final FileService fileService;
 
     @GetMapping("/image/{image}")
     public Resource imageSource(@PathVariable String image) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(image));
+        return new UrlResource("file:" + fileService.getFullPath(image));
     }
 }
