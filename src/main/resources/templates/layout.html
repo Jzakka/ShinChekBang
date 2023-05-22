@@ -1,28 +1,33 @@
 <html layout:decorate="~{common/layout.html}">
-  <body>
-    <header layout:fragment="header" class="sticky top-0 z-50">
-      <div class="items-end grid grid-flow-col justify-stretch m-3 max-w-4xl mx-auto">
+<body>
+<header layout:fragment="header" class="top-0 z-50">
+    <a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+    <hr>
+    <div class="items-end grid grid-flow-col justify-stretch m-3 max-w-4xl mx-auto">
         <div>
-          <img th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
+            <a th:href="@{/}" class="inline-block">
+                <img class="block" th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
+            </a>
         </div>
         <div>
             <input type="text" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
         </div>
         <div class="flex justify-between">
-          <div>
-              <a th:href="@{/member/noitfications}"><i class="fa-sharp fa-solid fa-bell"></i></a>
-          </div>
-          <div>
-            <a th:href="@{/member/cart}"><i class="fa-sharp fa-solid fa-cart-shopping"></i></a>
-          </div>
-          <div>
-            <a th:href="@{/member/library}"><i class="fa-sharp fa-solid fa-book-open"></i></a>
-          </div>
-          <div>
-            <a th:href="@{/member/info}"><i class="fa-sharp fa-solid fa-user"></i></a>
-          </div>
+            <div>
+                <a th:href="@{/member/noitfications}"><i class="fa-sharp fa-solid fa-bell"></i></a>
+            </div>
+            <div>
+                <a th:href="@{/member/cart}"><i class="fa-sharp fa-solid fa-cart-shopping"></i></a>
+            </div>
+            <div>
+                <a th:href="@{/member/library}"><i class="fa-sharp fa-solid fa-book-open"></i></a>
+            </div>
+            <div>
+                <a th:href="@{/member/info}"><i class="fa-sharp fa-solid fa-user"></i></a>
+            </div>
         </div>
-      </div>
-    </header>
-  </body>
+    </div>
+</header>
+</body>
 </html>
