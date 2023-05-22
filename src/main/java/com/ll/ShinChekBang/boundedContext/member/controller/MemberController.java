@@ -41,7 +41,7 @@ public class MemberController {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class LoginForm {
+    public static class SignupForm {
         @Email
         String email;
         @NotNull
@@ -56,18 +56,18 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
-    public String join(LoginForm loginForm) {
+    public String join(SignupForm signupForm) {
         return "/member/join";
     }
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
-    public String join(@Valid LoginForm loginForm, BindingResult bindingResult) {
+    public String join(@Valid MemberController.SignupForm signupForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/member/join";
         }
 
-        RsData<Member> joinResult = memberService.join(loginForm.username, loginForm.password, loginForm.passwordConfirm, loginForm.email);
+        RsData<Member> joinResult = memberService.join(signupForm.username, signupForm.password, signupForm.passwordConfirm, signupForm.email);
         if (joinResult.isFail()) {
             bindingResult.reject(joinResult.getResultCode(), joinResult.getMsg());
             return "/member/join";

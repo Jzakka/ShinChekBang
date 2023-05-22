@@ -1,12 +1,10 @@
 package com.ll.ShinChekBang.boundedContext.book.entity;
 
 import com.ll.ShinChekBang.base.entity.BaseEntity;
+import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.boundedContext.category.entity.Category;
 import com.ll.ShinChekBang.boundedContext.review.entity.Review;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -30,4 +28,8 @@ public class Book extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+    @OneToOne
+    private UploadFile thumbnail;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<UploadFile> images;
 }

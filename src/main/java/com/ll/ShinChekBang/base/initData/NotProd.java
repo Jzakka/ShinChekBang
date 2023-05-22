@@ -27,9 +27,10 @@ public class NotProd {
         return args -> {
             Member member = memberService.join("user1", "1234", "1234", "asd@asd.com").getData();
             Member member2 = memberService.join("user2", "1234", "1234", "asf@asd.com").getData();
-            Book book1 = bookService.addNewBook("책1", "글쓴이", 100).getData();
-            Book book2 = bookService.addNewBook("책2", "글쓴이", 1000).getData();
-            Book book3 = bookService.addNewBook("책3", "글쓴이", 10000).getData();
+            Member admin = memberService.join("admin", "1234", "1234", "admin@lwu.me").getData();
+            Book book1 = bookService.addNewBook("책1", "글쓴이", 100, null, null).getData();
+            Book book2 = bookService.addNewBook("책2", "글쓴이", 1000, null, null).getData();
+            Book book3 = bookService.addNewBook("책3", "글쓴이", 10000, null, null).getData();
             Category category1 = categoryService.createCategory("카테고리1").getData();
             Category category2 = categoryService.createCategory("카테고리2").getData();
             bookService.store(book1, Integer.MAX_VALUE);

@@ -1,0 +1,49 @@
+<html layout:decorate="~{layout.html}">
+<head>
+    <title th:text="신규도서등록"></title>
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="w-full flex items-center justify-center bg-gray-100">
+        <form th:object="${bookForm}" th:action class="p-6 bg-white rounded shadow-md w-80 mt-5" method="post" enctype="multipart/form-data">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <h2 class="text-2xl font-bold mb-5 text-gray-900">신규 도서 등록</h2>
+            <div class="mb-4">
+                <label for="title" class="text-gray-700 block mb-2">도서명</label>
+                <input type="text" th:field="*{title}" class="input input-bordered w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="author" class="text-gray-700 block mb-2">저자명</label>
+                <input type="text" th:field="*{author}" class="input input-bordered w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="price" class="text-gray-700 block mb-2">가격</label>
+                <input type="text" th:field="*{price}" class="input input-bordered w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="stock" class="text-gray-700 block mb-2">입고량</label>
+                <input type="text" th:field="*{stock}" class="input input-bordered w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="thumbnail" class="text-gray-700 block mb-2">표지사진</label>
+                <input type="file" name="thumbnail" id="thumbnail" class="input input-bordered w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="images" class="text-gray-700 block mb-2">이미지</label>
+                <input type="file" multiple="multiple" name="images" id="images" class="input input-bordered w-full">
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button type="submit" class="btn btn-primary">등록</button>
+            </div>
+
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -7,3 +7,5 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+file:
+  path: /Users/chungsanghwa/projects/images/ShinChekBang/

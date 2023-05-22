@@ -1,27 +1,36 @@
 package com.ll.ShinChekBang.boundedContext.book.service;
 
+import com.ll.ShinChekBang.base.file.FileStore;
+import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BookService {
     private final BookRepository bookRepository;
+    private final FileStore fileStore;
 
     @Transactional
-    public RsData<Book> addNewBook(String title, String author, Integer price) {
+    public RsData<Book> addNewBook(String title, String author, Integer price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
+        UploadFile thumbnailFile = fileStore.storeFile(thumbnail);
+        List<UploadFile> imageFiles = fileStore.storeFile(images);
+
         Book book = Book.builder()
                 .title(title)
                 .author(author)
                 .price(price)
+                .thumbnail(thumbnailFile)
+                .images(imageFiles)
                 .build();
         Book newBook = bookRepository.save(book);
 
@@ -44,5 +53,9 @@ public class BookService {
 
     public RsData<List<Book>> findByTitle(String title) {
         return RsData.successOf(bookRepository.findByTitle(title));
+    }
+
+    public List<Book> showBooks() {
+        return bookRepository.findAll();
     }
 }
