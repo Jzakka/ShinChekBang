@@ -9,14 +9,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
+    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.formLogin(formLogin -> formLogin.loginPage("/member/login"))
+        http
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/member/login")
+                        .failureHandler(authenticationFailureHandler))
                 .logout(logout -> logout.logoutUrl("/member/logout"));
         return http.build();
     }

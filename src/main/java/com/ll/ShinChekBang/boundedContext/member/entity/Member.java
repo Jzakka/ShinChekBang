@@ -9,6 +9,8 @@ import com.ll.ShinChekBang.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +45,17 @@ public class Member extends BaseEntity {
             }
         }
         return false;
+    }
+
+    public List<? extends GrantedAuthority> getGrantedAuthority() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority("member"));
+
+        if (username.equals("admin")) {
+            authorities.add(new SimpleGrantedAuthority("admin"));
+        }
+
+        return authorities;
     }
 }
