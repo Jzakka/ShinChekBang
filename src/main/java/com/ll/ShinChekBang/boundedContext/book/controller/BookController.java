@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,10 +38,10 @@ public class BookController {
     }
 
     @GetMapping
-    public String books(Model model) {
+    public String books(Model model, @RequestParam(defaultValue = "0")int page) {
         //TODO 페이징+쿼리스트링 필요
-        List<Book> listRsData = bookService.showBooks();
-        model.addAttribute("books", listRsData);
+        Page<Book> books = bookService.showBooks(page);
+        model.addAttribute("books", books);
         return "/books/recent";
     }
 
