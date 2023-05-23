@@ -25,6 +25,7 @@ public class Cart extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
+    @ToString.Exclude
     List<CartBook> cartBooks = new ArrayList<>();
 
     public void addBook(Book book, int quantity) {

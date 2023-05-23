@@ -36,12 +36,29 @@ class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰작성_실패() {
+    void 리뷰작성_실패_주문한적_없는_상품에_대해() {
         Member member2 = memberService.findByUsername("user2").getData();
         Book book2 = bookService.findByTitle("책2").getData().get(0);
         RsData<Review> reviewRsData = reviewService.review(member2, book2, 2.3f, "형편없는 책이에요");
 
         assertThat(reviewRsData.isFail()).isTrue();
+    }
+
+    @Test
+    void 리뷰수정_이미_리뷰_쓴것에_대해() {
+        Member member2 = memberService.findByUsername("user2").getData();
+        Book book1 = bookService.findByTitle("책1").getData().get(0);
+        reviewService.review(member2, book1, 4.6f, "너무 재밌어요");
+        RsData<Review> modified = reviewService.review(member2, book1, 2.3f, "아니다 노잼");
+
+        assertThat(modified.isSuccess()).isTrue();
+        assertThat(modified.getData().getRate()).isEqualTo(2.3f);
+        assertThat(modified.getData().getContent()).isEqualTo("아니다 노잼");
+
+        assertThat(member2.getReviews().size()).isEqualTo(1);
+        assertThat(member2.getReviews().stream().findAny().get().getContent()).isEqualTo("아니다 노잼");
+
+        assertThat(book1.getRate()).isEqualTo(2.3f);
     }
 
     @Test

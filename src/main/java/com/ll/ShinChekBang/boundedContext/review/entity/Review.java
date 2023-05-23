@@ -12,6 +12,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,6 +30,8 @@ public class Review extends BaseEntity {
     @Setter
     private Book book;
 
+    @Setter
     private float rate;
+    @Setter
     private String content;
 }

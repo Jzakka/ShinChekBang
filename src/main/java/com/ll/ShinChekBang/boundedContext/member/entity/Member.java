@@ -35,6 +35,7 @@ public class Member extends BaseEntity {
     private List<Review> reviews = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @Builder.Default
+    @ToString.Exclude
     private List<Order> orders = new ArrayList<>();
 
     public boolean hasOrdered(Book book) {

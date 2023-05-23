@@ -21,10 +21,12 @@ import java.util.List;
 public class Order extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "memberId")
+    @ToString.Exclude
     private Member member;
     private int paymentAccount;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
     @Builder.Default
+    @ToString.Exclude
     private List<OrderBook> orderItems = new ArrayList<>();
 }
