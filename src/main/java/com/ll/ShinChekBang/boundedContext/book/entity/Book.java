@@ -28,7 +28,7 @@ public class Book extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UploadFile thumbnail;
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> images;
