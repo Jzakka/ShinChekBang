@@ -2,6 +2,7 @@ package com.ll.ShinChekBang.boundedContext.review.service;
 
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
+import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.review.entity.Review;
 import com.ll.ShinChekBang.boundedContext.review.repository.ReviewRepository;
@@ -14,17 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final BookRepository bookRepository;
 
     @Transactional
     public RsData<Review> review(Member member, Book book, float rate, String content) {
         if (member.hasOrdered(book)) {
             Review review = Review.builder()
                     .member(member)
-                    .book(book)
                     .rate(rate)
                     .content(content)
                     .build();
+            book.addReview(review);
             Review uploadedReview = reviewRepository.save(review);
+            bookRepository.save(book);
             return RsData.of("S-8", "리뷰를 성공적으로 작성했습니다.", uploadedReview);
         }
         return RsData.of("F-8", "구매하지 않은 서적에 대해선 리뷰작성이 불가능합니다.");

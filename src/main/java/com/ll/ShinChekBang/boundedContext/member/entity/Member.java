@@ -28,6 +28,7 @@ public class Member extends BaseEntity {
     private String email;
     @Setter
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Cart cart;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @Builder.Default

@@ -1,6 +1,7 @@
 package com.ll.ShinChekBang.boundedContext.review.service;
 
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.base.ut.Utils;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
@@ -41,5 +42,18 @@ class ReviewServiceTest {
         RsData<Review> reviewRsData = reviewService.review(member2, book2, 2.3f, "형편없는 책이에요");
 
         assertThat(reviewRsData.isFail()).isTrue();
+    }
+
+    @Test
+    void 전체리뷰의_평점() {
+        Member admin = memberService.findByUsername("admin").getData();
+        Member member2 = memberService.findByUsername("user2").getData();
+        Member member3 = memberService.findByUsername("user3").getData();
+        Book book1 = bookService.findByTitle("책1").getData().get(0);
+        reviewService.review(member2, book1, 2.2f, "별로임");
+        reviewService.review(admin, book1, 4.0f, "나쁘지 않음");
+        reviewService.review(member3, book1, 3.0f, "그냥그럼");
+
+        assertThat(book1.getRate()).isEqualTo(Utils.round((2.2f + 4.0f + 3.0f)/3, 2));
     }
 }

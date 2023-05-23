@@ -29,6 +29,7 @@ public class NotProd {
         return args -> {
             Member member = memberService.join("user1", "1234", "1234", "asd@asd.com").getData();
             Member member2 = memberService.join("user2", "1234", "1234", "asf@asd.com").getData();
+            Member member3 = memberService.join("user3", "1234", "1234", "bsf@asd.com").getData();
             Member admin = memberService.join("admin", "1234", "1234", "admin@lwu.me").getData();
             Book book1 = bookService.addNewBook("책1", "글쓴이", 100, null, null).getData();
             Book book2 = bookService.addNewBook("책2", "글쓴이", 1000, null, null).getData();
@@ -40,8 +41,15 @@ public class NotProd {
             Category category2 = categoryService.createCategory("카테고리2").getData();
             bookService.store(book1, Integer.MAX_VALUE);
             bookService.store(book2, 5);
+
             cartService.addToCart(member2.getCart(), book1, 1);
             orderService.order(member2);
+
+            cartService.addToCart(admin.getCart(), book1, 1);
+            orderService.order(admin);
+
+            cartService.addToCart(member3.getCart(), book1, 1);
+            orderService.order(member3);
         };
     }
 }

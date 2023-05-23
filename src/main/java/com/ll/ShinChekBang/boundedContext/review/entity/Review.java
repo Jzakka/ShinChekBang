@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -19,10 +20,12 @@ import lombok.experimental.SuperBuilder;
 public class Review extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "memberId")
+    @ToString.Exclude
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "bookId")
+    @Setter
     private Book book;
 
     private float rate;
