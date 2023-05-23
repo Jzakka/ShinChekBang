@@ -1,0 +1,37 @@
+<div th:fragment="barRate">
+    <div class="flex items-center mt-4">
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500">★5</span>
+        <div class="w-2/4 h-5 mx-4  rounded ">
+            <div class="h-5 bg-yellow-400 rounded" th:style="|width: ${fiveRate}%|"></div>
+        </div>
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500" th:text="${fiveRate}"></span>
+    </div>
+    <div class="flex items-center mt-4">
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500">★4</span>
+        <div class="w-2/4 h-5 mx-4  rounded ">
+            <div class="h-5 bg-yellow-400 rounded" th:style="|width: ${fourRate}%|"></div>
+        </div>
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500" th:text="${fourRate}"></span>
+    </div>
+    <div class="flex items-center mt-4">
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500">★3</span>
+        <div class="w-2/4 h-5 mx-4  rounded ">
+            <div class="h-5 bg-yellow-400 rounded" th:style="|width: ${threeRate}%|"></div>
+        </div>
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500" th:text="${threeRate}"></span>
+    </div>
+    <div class="flex items-center mt-4">
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500">★2</span>
+        <div class="w-2/4 h-5 mx-4  rounded ">
+            <div class="h-5 bg-yellow-400 rounded" th:style="|width: ${twoRate}%|"></div>
+        </div>
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500" th:text="${twoRate}"></span>
+    </div>
+    <div class="flex items-center mt-4">
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500">★1</span>
+        <div class="w-2/4 h-5 mx-4  rounded ">
+            <div class="h-5 bg-yellow-400 rounded" th:style="|width: ${oneRate}%|"></div>
+        </div>
+        <span class="text-sm font-medium text-blue-600 dark:text-blue-500" th:text="${oneRate}"></span>
+    </div>
+</div>

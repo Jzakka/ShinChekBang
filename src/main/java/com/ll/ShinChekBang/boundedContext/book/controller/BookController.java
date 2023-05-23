@@ -3,6 +3,7 @@ package com.ll.ShinChekBang.boundedContext.book.controller;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
+import com.ll.ShinChekBang.boundedContext.review.form.ReviewForm;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -81,7 +82,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String bookInfo(@PathVariable long id, Model model) {
+    public String bookInfo(@PathVariable long id, Model model, ReviewForm reviewForm) {
         RsData<Book> bookResult = bookService.findOne(id);
         if (bookResult.isSuccess()) {
             model.addAttribute("book", bookResult.getData());

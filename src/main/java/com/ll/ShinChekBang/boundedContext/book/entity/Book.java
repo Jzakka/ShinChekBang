@@ -39,6 +39,9 @@ public class Book extends BaseEntity {
     private List<UploadFile> images;
 
     public float getRate() {
+        if (reviews.isEmpty()) {
+            return 0;
+        }
         double rateUnRounded = reviews.stream().mapToDouble(Review::getRate).sum() / reviews.size();
         return Utils.round((float) rateUnRounded, 2);
     }
@@ -46,5 +49,33 @@ public class Book extends BaseEntity {
     public void addReview(Review review) {
         reviews.add(review);
         review.setBook(this);
+    }
+
+    public float getOneRate() {
+        return getRateOfStar(1);
+    }
+
+    public float getTwoRate() {
+        return getRateOfStar(2);
+    }
+
+    public float getThreeRate() {
+        return getRateOfStar(3);
+    }
+
+    public float getFourRate() {
+        return getRateOfStar(4);
+    }
+
+    public float getFiveRate() {
+        return getRateOfStar(5);
+    }
+
+    private float getRateOfStar(int rate) {
+        if (reviews.isEmpty()) {
+            return 0;
+        }
+        float rateUnRounded = (float) reviews.stream().filter(review -> review.getRate() == rate).count() / reviews.size();
+        return Utils.round(rateUnRounded, 4) * 100;
     }
 }

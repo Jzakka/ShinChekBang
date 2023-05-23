@@ -5,15 +5,14 @@
 <body>
 <main layout:fragment="main">
     <div class="w-5/6">
-        <div class="flex mx-auto gap-4">
+        <div class="flex mx-auto gap-8">
             <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
                  class="w-[210px] h-[280px]">
-            <div class="gap-2">
-                <div>
+            <div class="gap-3">
+                <div class="w-[150px]" th:insert="~{books/rate/starRate :: starRateShow}"
+                     th:with="rate=${book.rate}"></div>
+                <div class="mt-3">
                     <h2 class="text-3xl" th:text="${book.title}"></h2>
-                </div>
-                <div name="rate">
-                    ⭐️⭐️⭐️⭐️⭐️ 5/5
                 </div>
                 <div>
                     <p class="text-slate-500" th:text="${book.author}"></p>
@@ -44,11 +43,49 @@
         <article class="min-w-[500px] max-w-xl mb-10">
             <span class="text-3xl dark:gray-400">리뷰</span>
             <hr class="mb-2 h-1 dark:bg-gray-400 border-0">
-            리뷰구현필요
+            <div class="flex gap-2 justify-between">
+                <div class="place-content-center gap-2">
+                    <div class="w-[150px]" th:insert="~{books/rate/starRate :: starRateShow}"
+                         th:with="rate=${book.rate}"></div>
+                    <div th:text="구매자평점" class="text-center"></div>
+                    <div th:text="${book.rate}" class="text-4xl	font-semibold text-center"></div>
+                    <div th:insert="~{books/rate/barRate :: barRate}" th:with="fiveRate=${book.fiveRate},
+                    fourRate=${book.fourRate},threeRate=${book.threeRate},twoRate=${book.twoRate},oneRate=${book.oneRate}"></div>
+                </div>
+                <form th:object="${reviewForm}" sec:authentication th:action="@{|/reviews/write/${book.id}|}"
+                      method="post" class="form-control gap-2">
+                    <div th:if="${errors}" th:each="error : ${errors}"
+                         class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:text-red-400">
+                        <p th:text="${error}"></p>
+                    </div>
+                    <div th:replace="~{books/rate/starRate :: starRateInput}"></div>
+                    <textarea placeholder="리뷰를 작성해주세요"
+                              th:field="*{content}"
+                              class="textarea textarea-bordered textarea-lg w-full max-w-xs h-full"></textarea>
+                    <button type="submit" class="btn btn-primary">리뷰등록</button>
+                </form>
+            </div>
+
+            <div class="tabs w-auto">
+                <a class="tab tab-bordered">구매자</a>
+                <a class="tab tab-bordered tab-active">전체</a>
+                <p class="tab-bordered grow"></p>
+            </div>
+
+            <div th:each="review : ${book.reviews}">
+                <div class="flex gap-4 my-2">
+                    <div>
+                        <div class="w-[80px]" th:insert="~{books/rate/starRate :: starRateShow}"
+                             th:with="rate=${review.rate}"></div>
+                        <p th:text="${review.member.username}"></p>
+                        <p th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd')}"
+                           class="text-slate-600 font-thin text-xs"></p>
+                    </div>
+                    <div th:text="${review.content}"></div>
+                </div>
+                <hr>
+            </div>
         </article>
-
-
-
     </div>
 
 
