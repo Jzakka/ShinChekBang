@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +70,13 @@ public class BookService {
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
         return bookRepository.findAll(pageable);
+    }
+
+    public RsData<Book> findOne(long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isEmpty()) {
+            return RsData.of("F-8", "상품정보를 찾을 수 없습니다.");
+        }
+        return RsData.successOf(optionalBook.get());
     }
 }

@@ -1,48 +1,49 @@
 <html layout:decorate="~{layout.html}">
 <head>
-  <title th:text="새로운책"></title>
+    <title th:text="새로운책"></title>
 </head>
 <body>
 <main layout:fragment="main">
-  <div class="w-4/5 mx-auto">
+
 
     <h2 class="text-4xl">신규도서</h2>
     <hr class="my-3">
     <div class="grid grid-cols-5 gap-4">
-      <div th:each="book :${books}">
-        <a th:href="|books/${book.id}|">
-          <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|" class="w-110 h-160">
-        </a>
-        <div>
-          <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
-          <div th:text="${book.author}"></div>
-          <div th:text="${book.price}"></div>
+        <div th:each="book :${books}">
+            <a th:href="|books/${book.id}|">
+                <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                     class="w-[110px] h-[150px]">
+            </a>
+            <div>
+                <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
+                <div th:text="${book.author}"></div>
+                <div th:text="${book.price}"></div>
+            </div>
         </div>
-      </div>
     </div>
 
     <hr class="my-3">
     <!-- 페이지 -->
     <div class="flex justify-center">
-      <ul class="list-style-none flex">
-        <li>
-          <a th:href="@{|?page=${books.number-1}|}" th:if="${books.hasPrevious()}"
-             class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
-        </li>
-        <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}">
-          <a th:href="@{|?page=${page}|}" th:class="${page != books.number} ?
+        <ul class="list-style-none flex">
+            <li>
+                <a th:href="@{|?page=${books.number-1}|}" th:if="${books.hasPrevious()}"
+                   class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}">
+                <a th:href="@{|?page=${page}|}" th:class="${page != books.number} ?
           'relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white':
           'relative block rounded bg-neutral-800 px-3 py-1.5 text-sm font-medium text-neutral-50 transition-all duration-300 dark:bg-neutral-900'"
-             th:text="${page}"></a>
-        </li>
-        <li>
-          <a th:href="@{|?page=${books.number+1}|}" th:if="${books.hasNext()}"
-             class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">다음</a>
-        </li>
-      </ul>
+                   th:text="${page}"></a>
+            </li>
+            <li>
+                <a th:href="@{|?page=${books.number+1}|}" th:if="${books.hasNext()}"
+                   class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">다음</a>
+            </li>
+        </ul>
     </div>
 
-  </div>
+
 </main>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<html layout:decorate="~{layout.html}">
+<head>
+    <title th:text="${book.title}"></title>
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="w-5/6">
+        <div class="flex mx-auto gap-4">
+            <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                 class="w-[210px] h-[280px]">
+            <div class="gap-2">
+                <div>
+                    <h2 class="text-3xl" th:text="${book.title}"></h2>
+                </div>
+                <div name="rate">
+                    ⭐️⭐️⭐️⭐️⭐️ 5/5
+                </div>
+                <div>
+                    <p class="text-slate-500" th:text="${book.author}"></p>
+                </div>
+                <div>
+                    <span th:text="정가 "></span>
+                    <span class="text-2xl" th:text="|${book.price}원|"></span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-3">
+
+        <article class="min-w-[500px] max-w-xl mb-10">
+            <span class="text-3xl dark:gray-400">작품 소개</span>
+            <hr class="mb-2 h-1 dark:bg-gray-400 border-0">
+            이 작품은 어쩌구저쩌구 이 작품은 어쩌구저쩌구이 작품은 어쩌구저쩌구
+            이 작품은 어쩌구저쩌구이 작품은 어쩌구저쩌구이 작품은 어쩌구저쩌구
+        </article>
+
+        <article class="min-w-[500px] max-w-xl mb-10">
+            <span class="text-3xl dark:gray-400">저자 프로필</span>
+            <hr class="mb-2 h-1 dark:bg-gray-400 border-0">
+            <p th:text="${book.author}"></p>
+            저자에 대한 설명
+        </article>
+
+        <article class="min-w-[500px] max-w-xl mb-10">
+            <span class="text-3xl dark:gray-400">리뷰</span>
+            <hr class="mb-2 h-1 dark:bg-gray-400 border-0">
+            리뷰구현필요
+        </article>
+
+
+
+    </div>
+
+
+</main>
+</body>
+</html>
