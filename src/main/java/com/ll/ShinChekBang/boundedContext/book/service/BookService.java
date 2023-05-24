@@ -3,6 +3,7 @@ package com.ll.ShinChekBang.boundedContext.book.service;
 import com.ll.ShinChekBang.base.file.service.FileService;
 import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.base.service.BaseService;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class BookService {
+public class BookService implements BaseService<Book> {
     private final BookRepository bookRepository;
     private final FileService fileService;
 
@@ -59,7 +60,8 @@ public class BookService {
         return bookRepository.findAll(pageable);
     }
 
-    public RsData<Book> findOne(long id) {
+    @Override
+    public RsData<Book> findOne(Long id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
             return RsData.of("F-8", "상품정보를 찾을 수 없습니다.");

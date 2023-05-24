@@ -42,6 +42,7 @@ public class Member extends BaseEntity {
     private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Library")
     @Builder.Default
     @ToString.Exclude
     private List<Book> Books = new ArrayList<>();

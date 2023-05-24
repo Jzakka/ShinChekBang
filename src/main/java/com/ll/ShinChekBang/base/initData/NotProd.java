@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"test", "dev"})
+@Profile({"test"})
 public class NotProd {
     @Bean
     CommandLineRunner initData(
@@ -38,14 +38,20 @@ public class NotProd {
             Category category1 = categoryService.createCategory("카테고리1").getData();
             Category category2 = categoryService.createCategory("카테고리2").getData();
 
-            cartService.addToCart(member2.getCart(), book1);
-            orderService.order(member2);
+            if (member2 != null) {
+                cartService.addToCart(member2.getCart(), book1);
+                orderService.order(member2);
+            }
 
-            cartService.addToCart(admin.getCart(), book1);
-            orderService.order(admin);
+            if (admin != null) {
+                cartService.addToCart(admin.getCart(), book1);
+                orderService.order(admin);
+            }
 
-            cartService.addToCart(member3.getCart(), book1);
-            orderService.order(member3);
+            if (member3 != null) {
+                cartService.addToCart(member3.getCart(), book1);
+                orderService.order(member3);
+            }
         };
     }
 }
