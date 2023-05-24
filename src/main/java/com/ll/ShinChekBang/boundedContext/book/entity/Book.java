@@ -23,6 +23,8 @@ import java.util.Set;
 public class Book extends BaseEntity {
     private String title;
     private String author;
+    @Column(columnDefinition = "TEXT")
+    private String description;
     private int price;
     @Setter
     private int stock;

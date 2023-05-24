@@ -3,6 +3,7 @@ package com.ll.ShinChekBang.boundedContext.review.entity;
 import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -33,5 +34,6 @@ public class Review extends BaseEntity {
     @Setter
     private float rate;
     @Setter
+    @Column(columnDefinition = "TEXT")
     private String content;
 }

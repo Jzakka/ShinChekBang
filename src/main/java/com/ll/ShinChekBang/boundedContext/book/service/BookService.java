@@ -27,13 +27,14 @@ public class BookService {
     private final FileService fileService;
 
     @Transactional
-    public RsData<Book> addNewBook(String title, String author, Integer price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
+    public RsData<Book> addNewBook(String title, String author, String description, Integer price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
         UploadFile thumbnailFile = fileService.storeFile(thumbnail);
         List<UploadFile> imageFiles = fileService.storeFile(images);
 
         Book book = Book.builder()
                 .title(title)
                 .author(author)
+                .description(description)
                 .price(price)
                 .thumbnail(thumbnailFile)
                 .images(imageFiles)
@@ -78,5 +79,9 @@ public class BookService {
             return RsData.of("F-8", "상품정보를 찾을 수 없습니다.");
         }
         return RsData.successOf(optionalBook.get());
+    }
+
+    public RsData<Book> addNewBook(String title, String author, int price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
+        return addNewBook(title, author, "책 소개가 없습니다.", price, thumbnail, images);
     }
 }

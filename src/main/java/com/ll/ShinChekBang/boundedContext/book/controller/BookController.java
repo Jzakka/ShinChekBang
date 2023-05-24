@@ -5,6 +5,8 @@ import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.review.form.ReviewForm;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +35,16 @@ public class BookController {
         String title;
         @NotNull
         String author;
+        @NotNull
+        @NotEmpty
+        @NotBlank
+        String description;
         int price;
         int stock;
     }
 
     @GetMapping
-    public String books(Model model, @RequestParam(defaultValue = "0")int page) {
+    public String books(Model model, @RequestParam(defaultValue = "0") int page) {
         //TODO 페이징+쿼리스트링 필요
         Page<Book> books = bookService.showBooks(page);
         model.addAttribute("books", books);
@@ -64,6 +70,7 @@ public class BookController {
         RsData<Book> addResult = bookService.addNewBook(
                 bookForm.title,
                 bookForm.author,
+                bookForm.description,
                 bookForm.price,
                 thumbnail,
                 images);

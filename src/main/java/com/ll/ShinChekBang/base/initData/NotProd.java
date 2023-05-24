@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.stream.IntStream;
-
 @Configuration
 @Profile({"test", "dev"})
 public class NotProd {
@@ -31,11 +29,11 @@ public class NotProd {
             Member member2 = memberService.join("user2", "1234", "1234", "asf@asd.com").getData();
             Member member3 = memberService.join("user3", "1234", "1234", "bsf@asd.com").getData();
             Member admin = memberService.join("admin", "1234", "1234", "admin@lwu.me").getData();
-            Book book1 = bookService.addNewBook("책1", "글쓴이", 100, null, null).getData();
-            Book book2 = bookService.addNewBook("책2", "글쓴이", 1000, null, null).getData();
-            Book book3 = bookService.addNewBook("책3", "글쓴이", 10000, null, null).getData();
+            Book book1 = bookService.addNewBook("책1", "글쓴이", "소개1", 100, null, null).getData();
+            Book book2 = bookService.addNewBook("책2", "글쓴이", "소개2", 1000, null, null).getData();
+            Book book3 = bookService.addNewBook("책3", "글쓴이", "소개3", 10000, null, null).getData();
             for (int i = 4; i <= 25; i++) {
-                bookService.addNewBook("책%d".formatted(i), "글쓴이", i * 100, null, null);
+                bookService.addNewBook("책%d".formatted(i), "글쓴이", "소개%d".formatted(i), i * 100, null, null);
             }
             Category category1 = categoryService.createCategory("카테고리1").getData();
             Category category2 = categoryService.createCategory("카테고리2").getData();
