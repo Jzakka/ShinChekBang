@@ -40,7 +40,6 @@ public class BookController {
         @NotBlank
         String description;
         int price;
-        int stock;
     }
 
     @GetMapping
@@ -76,12 +75,6 @@ public class BookController {
                 images);
         if (addResult.isFail()) {
             bindingResult.reject(addResult.getResultCode(), addResult.getMsg());
-            return "/books/new";
-        }
-
-        RsData<Book> adjustResult = bookService.adjustStock(addResult.getData(), bookForm.stock);
-        if (adjustResult.isFail()) {
-            bindingResult.reject(adjustResult.getResultCode(), adjustResult.getMsg());
             return "/books/new";
         }
 

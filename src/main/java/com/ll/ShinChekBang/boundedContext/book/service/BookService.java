@@ -44,20 +44,6 @@ public class BookService {
         return RsData.of("S-1", "새로운 책을 등록했습니다.", newBook);
     }
 
-    @Transactional
-    public RsData<Book> store(Book book, int quantity) {
-        book.setStock(book.getStock() + quantity);
-        Book storedBook = bookRepository.save(book);
-        return RsData.of("S-5", "%d번 상품의 재고가 %d개가 되었습니다.".formatted(book.getId(), book.getStock()), storedBook);
-    }
-
-    @Transactional
-    public RsData<Book> adjustStock(Book book, int stock) {
-        book.setStock(stock);
-        Book adjustedBook = bookRepository.save(book);
-        return RsData.successOf(adjustedBook);
-    }
-
     public RsData<List<Book>> findByTitle(String title) {
         return RsData.successOf(bookRepository.findByTitle(title));
     }
@@ -81,6 +67,7 @@ public class BookService {
         return RsData.successOf(optionalBook.get());
     }
 
+    @Transactional
     public RsData<Book> addNewBook(String title, String author, int price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
         return addNewBook(title, author, "책 소개가 없습니다.", price, thumbnail, images);
     }

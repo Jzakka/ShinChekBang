@@ -23,18 +23,12 @@ public class Cart extends BaseEntity {
     Member member;
     private int totalPrice;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Builder.Default
     @ToString.Exclude
-    List<CartBook> cartBooks = new ArrayList<>();
+    List<Book> books = new ArrayList<>();
 
-    public void addBook(Book book, int quantity) {
-        if (cartBooks.contains(CartBook.of(this, book))) {
-            int idx = cartBooks.indexOf(CartBook.of(this, book));
-            cartBooks.get(idx).setQuantity(cartBooks.get(idx).getQuantity() + quantity);
-            cartBooks.get(idx).setPriceSum(cartBooks.get(idx).getQuantity() * book.getPrice());
-        }
-        cartBooks.add(CartBook.of(this, book, quantity));
-        totalPrice += book.getPrice() * quantity;
+    public int getTotalPrice() {
+        return books.stream().mapToInt(Book::getPrice).sum();
     }
 }

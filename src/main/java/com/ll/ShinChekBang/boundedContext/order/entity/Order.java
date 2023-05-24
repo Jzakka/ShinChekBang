@@ -1,6 +1,7 @@
 package com.ll.ShinChekBang.boundedContext.order.entity;
 
 import com.ll.ShinChekBang.base.entity.BaseEntity;
+import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -25,8 +26,8 @@ public class Order extends BaseEntity {
     private Member member;
     private int paymentAccount;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY)
     @Builder.Default
     @ToString.Exclude
-    private List<OrderBook> orderItems = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 }

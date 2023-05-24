@@ -16,12 +16,12 @@ public class CartService {
     private final CartRepository cartRepository;
 
     @Transactional
-    public RsData<Cart> addToCart(Cart cart, Book book, int quantity) {
-        if (book.getStock() >= quantity) {
-            cart.addBook(book, quantity);
-            Cart cartAfterAddBooks = cartRepository.save(cart);
-            return RsData.successOf(cartAfterAddBooks);
+    public RsData<Cart> addToCart(Cart cart, Book book) {
+        if (cart.getBooks().contains(book)) {
+            return RsData.of("F-10", "이미 장바구니에 상품이 담겨있습니다.");
         }
-        return RsData.of("F-4", "재고가 부족합니다.");
+        cart.getBooks().add(book);
+        Cart cartAfterAddBooks = cartRepository.save(cart);
+        return RsData.successOf(cartAfterAddBooks);
     }
 }

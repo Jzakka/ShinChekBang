@@ -4,7 +4,6 @@ import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
-import com.ll.ShinChekBang.boundedContext.order.entity.OrderBook;
 import com.ll.ShinChekBang.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,30 +23,28 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private String username;
     private String password;
+
     @Column(unique = true)
     private String email;
+
     @Setter
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Cart cart;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @Builder.Default
     @ToString.Exclude
     private List<Order> orders = new ArrayList<>();
 
-    public boolean hasOrdered(Book book) {
-        for (Order order : orders) {
-            for (OrderBook orderItem : order.getOrderItems()) {
-                if (orderItem.getBook().equals(book)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    private List<Book> Books = new ArrayList<>();
 
     public List<? extends GrantedAuthority> getGrantedAuthority() {
         List<GrantedAuthority> authorities = new ArrayList<>();

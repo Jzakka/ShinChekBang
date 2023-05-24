@@ -1,6 +1,7 @@
 package com.ll.ShinChekBang.boundedContext.member.service;
 
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
 import com.ll.ShinChekBang.boundedContext.cart.repository.CartRepository;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;

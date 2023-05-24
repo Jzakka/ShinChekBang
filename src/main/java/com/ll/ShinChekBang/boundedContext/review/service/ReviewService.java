@@ -30,17 +30,14 @@ public class ReviewService {
             return RsData.of("S-9", "리뷰를 성공적으로 수정했습니다.", modifiedReview);
         }
 
-        if (member.hasOrdered(book)) {
-            Review review = Review.builder()
-                    .member(member)
-                    .rate(rate)
-                    .content(content)
-                    .build();
-            book.addReview(review);
-            bookRepository.save(book);
-            bookRepository.flush();
-            return RsData.of("S-8", "리뷰를 성공적으로 작성했습니다.", review);
-        }
-        return RsData.of("F-8", "구매하지 않은 서적에 대해선 리뷰작성이 불가능합니다.");
+        Review review = Review.builder()
+                .member(member)
+                .rate(rate)
+                .content(content)
+                .build();
+        book.addReview(review);
+        bookRepository.save(book);
+        bookRepository.flush();
+        return RsData.of("S-8", "리뷰를 성공적으로 작성했습니다.", review);
     }
 }

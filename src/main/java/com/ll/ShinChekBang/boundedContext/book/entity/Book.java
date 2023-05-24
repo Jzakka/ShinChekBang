@@ -23,20 +23,23 @@ import java.util.Set;
 public class Book extends BaseEntity {
     private String title;
     private String author;
+
     @Column(columnDefinition = "TEXT")
     private String description;
     private int price;
-    @Setter
-    private int stock;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book", cascade = CascadeType.ALL)
     @Builder.Default
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL)
     private UploadFile thumbnail;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> images;
 

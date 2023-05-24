@@ -1,6 +1,8 @@
 package com.ll.ShinChekBang.boundedContext.member.service;
 
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.boundedContext.book.entity.Book;
+import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MemberServiceTest {
     @Autowired
     MemberService memberService;
+    @Autowired
+    BookService bookService;
 
     @Test
     void 회원가입_테스트_성공() {

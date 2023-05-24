@@ -37,16 +37,14 @@ public class NotProd {
             }
             Category category1 = categoryService.createCategory("카테고리1").getData();
             Category category2 = categoryService.createCategory("카테고리2").getData();
-            bookService.store(book1, Integer.MAX_VALUE);
-            bookService.store(book2, 5);
 
-            cartService.addToCart(member2.getCart(), book1, 1);
+            cartService.addToCart(member2.getCart(), book1);
             orderService.order(member2);
 
-            cartService.addToCart(admin.getCart(), book1, 1);
+            cartService.addToCart(admin.getCart(), book1);
             orderService.order(admin);
 
-            cartService.addToCart(member3.getCart(), book1, 1);
+            cartService.addToCart(member3.getCart(), book1);
             orderService.order(member3);
         };
     }
