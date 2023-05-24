@@ -52,4 +52,15 @@ class CartServiceTest {
         RsData<Cart> additional = cartService.addToCart(cart, book1);
         assertThat(additional.isFail()).isTrue();
     }
+
+    @Test
+    void 이미_갖고있는_책_담기는_실패() {
+        Member user1 = memberRepository.findByUsername("user1").get();
+        Book book1 = bookRepository.findByTitle("책1").get(0);
+        user1.getBooks().add(book1);
+        Cart cart = user1.getCart();
+
+        RsData<Cart> addToCart = cartService.addToCart(cart, book1);
+        assertThat(addToCart.isFail()).isTrue();
+    }
 }

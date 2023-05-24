@@ -20,6 +20,9 @@ public class CartService {
         if (cart.getBooks().contains(book)) {
             return RsData.of("F-10", "이미 장바구니에 상품이 담겨있습니다.");
         }
+        if (cart.getMember().getBooks().contains(book)) {
+            return RsData.of("F-10", "이미 소장하신 도서입니다.");
+        }
         cart.getBooks().add(book);
         Cart cartAfterAddBooks = cartRepository.save(cart);
         return RsData.successOf(cartAfterAddBooks);
