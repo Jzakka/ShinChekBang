@@ -40,17 +40,17 @@ public class NotProd {
 
             if (member2 != null) {
                 cartService.addToCart(member2.getCart(), book1);
-                orderService.order(member2);
+                orderService.order(member2, member2.getCart().getBooks(), member2.getCart().getTotalPrice());
             }
 
             if (admin != null) {
                 cartService.addToCart(admin.getCart(), book1);
-                orderService.order(admin);
+                orderService.order(admin, admin.getCart().getBooks(), admin.getCart().getTotalPrice());
             }
 
             if (member3 != null) {
                 cartService.addToCart(member3.getCart(), book1);
-                orderService.order(member3);
+                orderService.order(member3, member3.getCart().getBooks(), member3.getCart().getTotalPrice());
             }
         };
     }

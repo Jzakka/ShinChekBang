@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -40,12 +42,14 @@ class OrderServiceTest {
 
     @Test
     void 장바구니에_담은_물건_주문() {
-        Member user1 = memberRepository.findByUsername("user1").get();
-        RsData<Order> orderResult = orderService.order(user1);
-        assertThat(orderResult.isSuccess()).isTrue();
-        Order order = orderResult.getData();
         Book book1 = bookService.findByTitle("책1").getData().get(0);
         Book book2 = bookService.findByTitle("책2").getData().get(0);
-        assertThat(order.getPaymentAccount()).isEqualTo(book1.getPrice() + book2.getPrice());
+        List<Book> orderBooks = List.of(book1, book2);
+        Member member = memberRepository.findByUsername("user1").get();
+
+        RsData<Order> orderResult = orderService.order(member, orderBooks, 25000);
+
+        assertThat(orderResult.isSuccess()).isTrue();
+        assertThat(orderResult.getData().getPaymentAccount()).isEqualTo(25000);
     }
 }
