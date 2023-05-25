@@ -6,3 +6,7 @@ spring:
     password: ${MYSQL_PW}
   profiles:
     active: dev
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 50
