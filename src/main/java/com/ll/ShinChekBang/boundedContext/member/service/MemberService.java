@@ -7,9 +7,12 @@ import com.ll.ShinChekBang.boundedContext.cart.repository.CartRepository;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -57,5 +60,15 @@ public class MemberService {
     public RsData<Member> findByUsername(String name) {
         Optional<Member> optionalMember = memberRepository.findByUsername(name);
         return optionalMember.map(RsData::successOf).orElseGet(() -> RsData.failOf(null));
+    }
+
+
+    public Member getMember(User user) {
+        RsData<Member> memberResult = findByUsername(user.getUsername());
+        if (memberResult.isFail()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, memberResult.getMsg());
+        }
+
+        return memberResult.getData();
     }
 }

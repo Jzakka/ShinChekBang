@@ -1,7 +1,7 @@
 package com.ll.ShinChekBang.boundedContext.cart.controller;
 
 import com.ll.ShinChekBang.base.result.RsData;
-import com.ll.ShinChekBang.base.service.BaseService;
+import com.ll.ShinChekBang.base.ut.Utils;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
@@ -9,7 +9,6 @@ import com.ll.ShinChekBang.boundedContext.cart.service.CartService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +32,7 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping
     public String goToMyCart(@AuthenticationPrincipal User user) {
-        Member member = getMember(user);
+        Member member = memberService.getMember(user);
         return "redirect:/cart/" + member.getCart().getId();
     }
 
@@ -41,8 +40,8 @@ public class CartController {
     @PostMapping("/add/{bookId}")
     public String addToCart(@PathVariable Long bookId,
                             @AuthenticationPrincipal User user) {
-        Book book = getData(bookId, bookService);
-        Member member = getMember(user);
+        Book book = Utils.getData(bookId, bookService);
+        Member member = memberService.getMember(user);
 
         RsData<Cart> addedResult = cartService.addToCart(member.getCart(), book);
 
@@ -58,8 +57,8 @@ public class CartController {
     public String showCart(@PathVariable Long cartId,
                            @AuthenticationPrincipal User user,
                            Model model) {
-        Cart cart = getData(cartId, cartService);
-        Member member = getMember(user);
+        Cart cart = Utils.getData(cartId, cartService);
+        Member member = memberService.getMember(user);
 
         if (member.getCart().equals(cart)) {
             model.addAttribute("cart", cart);
@@ -73,31 +72,14 @@ public class CartController {
     public String deleteBookFromCart(@PathVariable Long cartId,
                                      @PathVariable Long bookId,
                                      @AuthenticationPrincipal User user) {
-        Cart cart = getData(cartId, cartService);
-        Member member = getMember(user);
+        Cart cart = Utils.getData(cartId, cartService);
+        Member member = memberService.getMember(user);
 
         if (member.getCart().equals(cart)) {
-            Book book = getData(bookId, bookService);
+            Book book = Utils.getData(bookId, bookService);
             cartService.removeFromCart(cart, book);
             return "redirect:/cart/" + cartId;
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "권한이 없습니다.");
-    }
-
-    private <T> T getData(Long dataId, BaseService<T> service) {
-        RsData<T> findResult = service.findOne(dataId);
-        if (findResult.isFail()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, findResult.getMsg());
-        }
-        return findResult.getData();
-    }
-
-    private Member getMember(User user) {
-        RsData<Member> memberResult = memberService.findByUsername(user.getUsername());
-        if (memberResult.isFail()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, memberResult.getMsg());
-        }
-
-        return memberResult.getData();
     }
 }
