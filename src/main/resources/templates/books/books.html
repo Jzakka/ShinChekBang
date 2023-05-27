@@ -53,7 +53,8 @@
                         <a th:href="@{|?page=${books.number-1}|}" th:if="${books.hasPrevious()}"
                            class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
                     </li>
-                    <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}">
+                    <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}"
+                        th:if="${page>=books.number-5 and page <= books.number+5}">
                         <a th:href="@{|?page=${page}|}" th:class="${page != books.number} ?
           'relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white':
           'relative block rounded bg-neutral-800 px-3 py-1.5 text-sm font-medium text-neutral-50 transition-all duration-300 dark:bg-neutral-900'"

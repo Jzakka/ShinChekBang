@@ -72,12 +72,12 @@
             </div>
 
             <div class="tabs w-auto">
-                <a class="tab tab-bordered">구매자</a>
-                <a class="tab tab-bordered tab-active">전체</a>
+                <a class="tab tab-bordered" onclick="">구매자</a>
+                <a class="tab tab-bordered tab-active" onclick="">전체</a>
                 <p class="tab-bordered grow"></p>
             </div>
 
-            <div th:each="review : ${book.reviews}">
+            <div th:each="review : ${book.reviews}" class="book-reviews" th:data-purchased="${review.member.books.contains(book)}">
                 <div class="flex gap-4 my-2">
                     <div>
                         <div class="w-[80px]" th:insert="~{books/rate/starRate :: starRateShow}"
@@ -93,6 +93,23 @@
         </article>
     </div>
 
+    <script>
+        $(document).ready(function() {
+            $('.tab').click(function() {
+                // 현재 활성화된 탭에서 'tab-active' 클래스를 제거합니다.
+                $('.tab-active').removeClass('tab-active');
+                // 클릭된 탭에 'tab-active' 클래스를 추가합니다.
+                $(this).addClass('tab-active');
+
+                if ($(this).text() === '구매자') {
+                    $('.book-reviews').hide();
+                    $('.book-reviews[data-purchased="true"]').show();
+                } else {
+                    $('.book-reviews').show();
+                }
+            });
+        });
+    </script>
 
 </main>
 </body>

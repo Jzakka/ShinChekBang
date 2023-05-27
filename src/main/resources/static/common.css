@@ -7,6 +7,7 @@
 
 html > body {
     font-family: "IBMPlexSansKR-Regular";
+    min-width: 896px;
 }
 
 .star-rating {
