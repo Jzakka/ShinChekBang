@@ -87,4 +87,8 @@ public class CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다."));
     }
+
+    public List<ParentCategory> parentCategories() {
+        return parentCategoryRepository.findAll();
+    }
 }

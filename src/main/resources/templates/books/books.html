@@ -6,13 +6,23 @@
 <main layout:fragment="main">
     <div class="flex justify-between">
         <div>
-            카테고리
+            <ul>
+                <li th:each="parent: ${parentCategories}">
+                    <a th:href="@{|/categories/of/${parent.id}|}" th:text="${parent.name}" class="font-semibold w-full block p-2"
+                       th:classappend="${category.parentCategory.id == parent.id} ? 'text-white rounded-md bg-sky-500/75' : ''"></a>
+                        <ul th:if="${category.parentCategory.id == parent.id}">
+                           <li th:each="child : ${parent.childCategories}">
+                               <a th:href="@{|/categoies/${child.id}|}" th:text="${child.name}" class="text-sm text-slate-600 p-3"></a>
+                           </li>
+                        </ul>
+                </li>
+            </ul>
         </div>
         <div class="w-4/5">
             <span class="text-2xl font-normal mb-5 text-gray-400" th:text="|${category.parentCategory.name} >|"></span>
             <span class="text-2xl font-bold mb-5 text-gray-900" th:text="${category.name}"></span>
 
-            <div class="tabs w-auto">
+            <div class="tabs w-auto mt-4">
                 <a class="tab tab-bordered tab-active">베스트</a>
                 <a class="tab tab-bordered">신간</a>
                 <a class="tab tab-bordered">무료</a>
@@ -35,6 +45,25 @@
                         <p th:text="|${book.price}원|" class="text-xs text-sky-600"></p>
                     </div>
                 </div>
+            </div>
+            <!-- 페이지 -->
+            <div class="flex justify-center p-5">
+                <ul class="list-style-none flex">
+                    <li>
+                        <a th:href="@{|?page=${books.number-1}|}" th:if="${books.hasPrevious()}"
+                           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
+                    </li>
+                    <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}">
+                        <a th:href="@{|?page=${page}|}" th:class="${page != books.number} ?
+          'relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white':
+          'relative block rounded bg-neutral-800 px-3 py-1.5 text-sm font-medium text-neutral-50 transition-all duration-300 dark:bg-neutral-900'"
+                           th:text="${page}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{|?page=${books.number+1}|}" th:if="${books.hasNext()}"
+                           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">다음</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

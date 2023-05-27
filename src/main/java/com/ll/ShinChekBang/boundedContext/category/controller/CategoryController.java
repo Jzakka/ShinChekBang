@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,10 +21,13 @@ public class CategoryController {
 
     private final BookService bookService;
 
+    @ModelAttribute("parentCategories")
+    public List<ParentCategory> parentCategories() {
+        return categoryService.parentCategories();
+    }
+
     @GetMapping
-    public String categories(Model model) {
-        List<ParentCategory> parentCategories = categoryService.findParentCategories();
-        model.addAttribute("parentCategories", parentCategories);
+    public String categories() {
         return "category/list";
     }
 
