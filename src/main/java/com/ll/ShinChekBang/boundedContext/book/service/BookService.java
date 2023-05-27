@@ -6,6 +6,7 @@ import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.base.service.BaseService;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
+import com.ll.ShinChekBang.boundedContext.category.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -72,5 +73,12 @@ public class BookService implements BaseService<Book> {
     @Transactional
     public RsData<Book> addNewBook(String title, String author, int price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
         return addNewBook(title, author, "책 소개가 없습니다.", price, thumbnail, images);
+    }
+
+    public Page<Book> findByCategory(Category category, int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
+        return bookRepository.findByCategories(category, pageable);
     }
 }

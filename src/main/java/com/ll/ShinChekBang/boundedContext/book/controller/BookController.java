@@ -49,6 +49,8 @@ public class BookController {
         return "/books/recent";
     }
 
+
+
     @PreAuthorize("isAuthenticated() && hasAuthority('admin')")
     @GetMapping("/new")
     public String newBook(BookForm bookForm) {
