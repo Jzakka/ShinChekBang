@@ -7,6 +7,7 @@ import com.ll.ShinChekBang.base.service.BaseService;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
 import com.ll.ShinChekBang.boundedContext.category.entity.Category;
+import com.ll.ShinChekBang.boundedContext.category.entity.ParentCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -80,5 +81,13 @@ public class BookService implements BaseService<Book> {
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
         return bookRepository.findByCategories(category, pageable);
+    }
+
+    public Page<Book> findByCategory(ParentCategory parentCategory, int page) {
+        List<Category> categories = parentCategory.getChildCategories();
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
+        return bookRepository.findByCategoriesIsIn(categories, pageable);
     }
 }

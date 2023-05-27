@@ -32,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public String showBooksInCateogry(@PathVariable Long categoryId,
+    public String showBooksInCateogory(@PathVariable Long categoryId,
                                       @RequestParam(defaultValue = "0") int page,
                                       Model model) {
         Category category = categoryService.findOne(categoryId);
@@ -40,5 +40,16 @@ public class CategoryController {
         model.addAttribute("category", category);
         model.addAttribute("books", books);
         return "/books/books";
+    }
+
+    @GetMapping("/of/{parentCategoryId}")
+    public String showBooksInParentCategory(@PathVariable Long parentCategoryId,
+                                            @RequestParam(defaultValue = "0") int page,
+                                            Model model) {
+        ParentCategory category = categoryService.findParentOne(parentCategoryId);
+        Page<Book> books = bookService.findByCategory(category, page);
+        model.addAttribute("parentCategory", category);
+        model.addAttribute("books", books);
+        return "/books/allBooks";
     }
 }

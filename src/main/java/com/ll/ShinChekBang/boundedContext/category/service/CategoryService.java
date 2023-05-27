@@ -91,4 +91,10 @@ public class CategoryService {
     public List<ParentCategory> parentCategories() {
         return parentCategoryRepository.findAll();
     }
+
+    public ParentCategory findParentOne(Long parentCategoryId) {
+        return parentCategoryRepository
+                .findById(parentCategoryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다."));
+    }
 }
