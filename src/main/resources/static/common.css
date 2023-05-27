@@ -57,4 +57,12 @@ svg {
     fill: gold;
 }
 
+.sub-menu {
+    display: none; /* 초기에는 서브 메뉴를 숨김 */
+}
+
+.menu:hover .sub-menu {
+    display: block; /* 메뉴에 호버하면 서브 메뉴를 보여줌 */
+}
+
 

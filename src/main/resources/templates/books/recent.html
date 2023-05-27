@@ -5,8 +5,10 @@
 <body>
 <main layout:fragment="main">
 
-
-    <h2 class="text-4xl">신규도서</h2>
+    <div class="flex justify-between">
+        <h2 class="text-4xl">신규도서</h2>
+        <a th:href="@{/categories}" class="flex items-center"><i class="fa-solid fa-bars mr-1"></i>전체 카테고리</a>
+    </div>
     <hr class="my-3">
     <div class="grid grid-cols-5 gap-4">
         <div th:each="book :${books}">

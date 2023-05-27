@@ -75,4 +75,8 @@ public class CategoryService {
         category = categoryRepository.save(category);
         return RsData.of("S-7", "카테고리[%s]에 %s가 추가되었습니다.".formatted(category.getName(), book.getTitle()));
     }
+
+    public List<ParentCategory> findParentCategories() {
+        return parentCategoryRepository.findAll();
+    }
 }

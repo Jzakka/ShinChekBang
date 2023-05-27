@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout.html}">
+<head>
+    <title th:text="카테고리"></title>
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="">
+        <ul class="w-[680px] h-[500px] menu flex flex-col flex-wrap">
+            <div th:each="parent: ${parentCategories}" class="h-auto">
+                <li class="menu-title">
+                    <span th:text="${parent.name}"></span>
+                </li>
+                <li>
+                    <a href="#" th:text="|${parent.name} 전체|"></a>
+                </li>
+                <li th:each="child: ${parent.childCategories}">
+                    <a href="#" th:text="${child.name}"></a>
+                </li>
+            </div>
+        </ul>
+    </div>
+</main>
+
+<script>
+    $(".child").hover(
+        function () {
+            $(this).parent().parent().addClass('hover');
+        }, function () {
+            $(this).parent().parent().removeClass('hover');
+        }
+    );
+</script>
+</body>
+</html>

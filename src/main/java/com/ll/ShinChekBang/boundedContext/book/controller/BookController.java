@@ -44,7 +44,6 @@ public class BookController {
 
     @GetMapping
     public String books(Model model, @RequestParam(defaultValue = "0") int page) {
-        //TODO 페이징+쿼리스트링 필요
         Page<Book> books = bookService.showBooks(page);
         model.addAttribute("books", books);
         return "/books/recent";
