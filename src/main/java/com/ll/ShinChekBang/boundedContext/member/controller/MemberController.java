@@ -13,7 +13,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/info")
-    public String info() {
-        System.out.println("MemberController.info");
-        return "/member/info";
-    }
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
@@ -74,5 +70,14 @@ public class MemberController {
         }
 
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/info")
+    public String info(@AuthenticationPrincipal User user, Model model) {
+        Member member = memberService.getMember(user);
+        model.addAttribute(member);
+
+        return "/member/info";
     }
 }

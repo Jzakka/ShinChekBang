@@ -19,6 +19,7 @@ public class Category extends BaseEntity {
     private String name;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
     @Builder.Default
+    @ToString.Exclude
     private List<Book> books = new ArrayList<>();
 
     @ManyToOne

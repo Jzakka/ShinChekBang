@@ -24,10 +24,10 @@ class CategoryServiceTest {
     @Test
     void 카테고리분류() {
         Book book1 = bookService.findByTitle("책1").getData().get(0);
-        Category category1 = categoryService.findByName("카테고리1").getData();
+        Category category1 = categoryService.findByName("국내여행").getData();
         RsData<Category> categorizedResult = categoryService.categorize(book1, category1);
         assertThat(categorizedResult.isSuccess()).isTrue();
-        assertThat(book1.getCategories().get(0)).isEqualTo(category1);
-        assertThat(category1.getBooks().get(0)).isEqualTo(book1);
+        assertThat(book1.getCategories()).contains(category1);
+        assertThat(category1.getBooks()).contains(book1);
     }
 }
