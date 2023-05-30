@@ -10,10 +10,10 @@
             <div class="min-w-[550px] border border-stone-950 p-3">
                 <form id="bill" th:action="@{/order}" method="get">
                     <input type="checkbox" id="master" checked>
-                    <div th:each="book :${cart.getBooks()}" class="gap-2">
+                    <div th:each="book :${cart.getBooks()}" class="gap-2 cartItem">
                         <hr class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-300">
                         <div class="flex gap-2 mt-3">
-                            <input class="sub-checkbox" type="checkbox" th:value="${book.id}" name="bookIds" checked>
+                            <input class="sub-checkbox" type="checkbox" th:value="${book.id}" name="bookIds" checked th:data-price="${book.price}">
                             <a th:href="@{|/books/${book.id}|}">
                                 <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
                                      class="w-[60px] h-[85px]">
@@ -27,21 +27,21 @@
                             <div class="mx-auto flex items-center justify-center">
                                 <p class="align-center mr-3" th:text="|${book.price}원|"></p>
                             </div>
-                            <input type="hidden" name="paymentAmount" th:value="|${cart.totalPrice}|">
                         </div>
                     </div>
+                    <input type="hidden" name="paymentAmount" id="paymentAmount" th:value="|${cart.totalPrice}|">
                 </form>
             </div>
             <div>
                 <div class="min-w-[290px] h-[240px] border border-blue-300 p-0 flex flex-col justify-around">
                     <div class="flex-grow items-center flex justify-around">
-                        <span>총 상품금액</span><span th:text="|${cart.totalPrice}원|"></span>
+                        <span>총 상품금액</span><span class="totalPrice" th:text="|${cart.totalPrice}원|"></span>
                     </div>
                     <div class="flex-grow items-center flex justify-around">
                         <span>할인금액</span><span>-0원</span>
                     </div>
                     <div class="flex-grow items-center flex justify-around bg-sky-100">
-                        <span>결제금액</span><span th:text="|${cart.totalPrice}원|"></span>
+                        <span>결제금액</span><span class="totalPrice" th:text="|${cart.totalPrice}원|"></span>
                     </div>
                 </div>
                 <button class="btn btn-primary w-full mt-3" onclick="$('#bill').submit()">주문창으로 이동</button>
@@ -55,7 +55,7 @@
             }
         }
 
-        document.getElementById('master').addEventListener('change', function(e) {
+        document.getElementById('master').addEventListener('change', function (e) {
             const checked = e.target.checked;
             const checkboxes = document.querySelectorAll('.sub-checkbox');
             for (let i = 0; i < checkboxes.length; i++) {
@@ -63,6 +63,21 @@
             }
         });
 
+        $(document).ready(function(){
+            function updateTotal() {
+                var total = 0;
+                $('.sub-checkbox:checked').each(function(){
+                    total += parseInt($(this).data('price'), 10);
+                });
+                $('#paymentAmount').val(total);
+                $('.totalPrice').html(total+'원');
+            }
+
+            updateTotal();
+            $('.sub-checkbox').change(function(){
+                updateTotal();
+            });
+        });
     </script>
 </main>
 </body>
