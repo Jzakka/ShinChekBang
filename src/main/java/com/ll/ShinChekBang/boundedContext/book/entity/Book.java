@@ -1,5 +1,6 @@
 package com.ll.ShinChekBang.boundedContext.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.base.ut.Utils;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode
 @ToString(callSuper = true)
 public class Book extends BaseEntity {
     private String title;
@@ -43,6 +45,7 @@ public class Book extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> images;
 
+    @JsonIgnore
     public float getRate() {
         if (reviews.isEmpty()) {
             return 0;
@@ -56,26 +59,27 @@ public class Book extends BaseEntity {
         review.setBook(this);
     }
 
+    @JsonIgnore
     public float getOneRate() {
         return getRateOfStar(1);
     }
-
+    @JsonIgnore
     public float getTwoRate() {
         return getRateOfStar(2);
     }
-
+    @JsonIgnore
     public float getThreeRate() {
         return getRateOfStar(3);
     }
-
+    @JsonIgnore
     public float getFourRate() {
         return getRateOfStar(4);
     }
-
+    @JsonIgnore
     public float getFiveRate() {
         return getRateOfStar(5);
     }
-
+    @JsonIgnore
     private float getRateOfStar(int rate) {
         if (reviews.isEmpty()) {
             return 0;
