@@ -32,11 +32,13 @@ public class Book extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     private List<Category> categories = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book", cascade = CascadeType.ALL)
     @Builder.Default
     @ToString.Exclude
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

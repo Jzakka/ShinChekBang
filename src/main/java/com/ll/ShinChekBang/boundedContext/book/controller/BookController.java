@@ -3,6 +3,8 @@ package com.ll.ShinChekBang.boundedContext.book.controller;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
+import com.ll.ShinChekBang.boundedContext.member.entity.Member;
+import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import com.ll.ShinChekBang.boundedContext.review.form.ReviewForm;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
+    private final MemberService memberService;
 
     @Data
     public static class BookForm {
@@ -83,10 +88,20 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String bookInfo(@PathVariable long id, Model model, ReviewForm reviewForm) {
+    public String bookInfo(@AuthenticationPrincipal User user,
+                           @PathVariable long id,
+                           Model model,
+                           ReviewForm reviewForm) {
         RsData<Book> bookResult = bookService.findOne(id);
+
         if (bookResult.isSuccess()) {
-            model.addAttribute("book", bookResult.getData());
+            Book book = bookResult.getData();
+
+            if (user != null) {
+                Member member = memberService.getMember(user);
+                bookService.seeBook(member, book);
+            }
+            model.addAttribute("book", book);
             return "/books/info";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, bookResult.getMsg());

@@ -1,5 +1,6 @@
 package com.ll.ShinChekBang.base.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreatedDate
+    @JsonIgnore
     private LocalDateTime createDate;
     @LastModifiedDate
+    @JsonIgnore
     private LocalDateTime modifyDate;
 }

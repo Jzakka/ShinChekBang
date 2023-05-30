@@ -6,8 +6,10 @@ import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.base.service.BaseService;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
+import com.ll.ShinChekBang.boundedContext.book.repository.RecentSeeBooksRepository;
 import com.ll.ShinChekBang.boundedContext.category.entity.Category;
 import com.ll.ShinChekBang.boundedContext.category.entity.ParentCategory;
+import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,8 @@ import java.util.Optional;
 public class BookService implements BaseService<Book> {
     private final BookRepository bookRepository;
     private final FileService fileService;
+
+    private final RecentSeeBooksRepository recentSeeBooksRepository;
 
     @Transactional
     public RsData<Book> addNewBook(String title, String author, String description, Integer price, MultipartFile thumbnail, List<MultipartFile> images) throws IOException {
@@ -89,5 +93,14 @@ public class BookService implements BaseService<Book> {
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
         return bookRepository.findByCategoriesIsIn(categories, pageable);
+    }
+
+    public RsData<Book> seeBook(Member member, Book book) {
+        recentSeeBooksRepository.saveBook(member.getId(), book);
+        return RsData.successOf(null);
+    }
+
+    public List<Book> recentSeeBooks(Member member) {
+        return recentSeeBooksRepository.getBooks(member.getId());
     }
 }

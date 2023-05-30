@@ -1,6 +1,8 @@
 package com.ll.ShinChekBang.boundedContext.member.controller;
 
 import com.ll.ShinChekBang.base.result.RsData;
+import com.ll.ShinChekBang.boundedContext.book.entity.Book;
+import com.ll.ShinChekBang.boundedContext.book.service.BookService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import jakarta.validation.Valid;
@@ -22,11 +24,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final BookService bookService;
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
@@ -76,8 +81,10 @@ public class MemberController {
     @GetMapping("/info")
     public String info(@AuthenticationPrincipal User user, Model model) {
         Member member = memberService.getMember(user);
-        model.addAttribute(member);
+        List<Book> recentSeeBooks = bookService.recentSeeBooks(member);
 
+        model.addAttribute("member", member);
+        model.addAttribute("recentSeeBooks", recentSeeBooks);
         return "/member/info";
     }
 }

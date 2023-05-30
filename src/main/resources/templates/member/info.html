@@ -1,10 +1,20 @@
 <html layout:decorate="~{layout.html}">
 <head>
-    <title th:text="내 정보"></title>
+    <title th:text="|내 정보|"></title>
 </head>
 <body>
 <main layout:fragment="main">
-
+    <div th:each="book : ${recentSeeBooks}">
+        <a th:href="|books/${book.id}|">
+            <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                 class="w-[110px] h-[150px]">
+        </a>
+        <div>
+            <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
+            <div th:text="${book.author}"></div>
+            <div>별점</div>
+        </div>
+    </div>
 </main>
 </body>
 </html>

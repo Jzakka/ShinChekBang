@@ -1,5 +1,6 @@
 package com.ll.ShinChekBang.boundedContext.category.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.ShinChekBang.base.entity.BaseEntity;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import jakarta.persistence.*;
@@ -20,10 +21,12 @@ public class Category extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
     @Builder.Default
     @ToString.Exclude
+    @JsonIgnore
     private List<Book> books = new ArrayList<>();
 
     @ManyToOne
     @Setter
+    @JsonIgnore
     private ParentCategory parentCategory;
 
     public void include(Book book) {
