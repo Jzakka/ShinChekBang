@@ -28,7 +28,7 @@ public class RecentSeeBooksRepository {
 
     public void saveBook(Long userId, Book book) {
         String key = userId.toString() + ":recentSeeBooks";
-        listOperations.rightPush(key, book);
+        listOperations.leftPush(key, book);
         listOperations.trim(key, 0, MAX_PRODUCTS - 1);
     }
 
