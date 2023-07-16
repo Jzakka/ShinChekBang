@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @ToString(callSuper = true)
 public class Book extends BaseEntity {
     private String title;

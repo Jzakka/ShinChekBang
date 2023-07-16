@@ -82,6 +82,9 @@ public class MemberController {
     public String info(@AuthenticationPrincipal User user, Model model) {
         Member member = memberService.getMember(user);
         List<Book> recentSeeBooks = bookService.recentSeeBooks(member);
+        if (recentSeeBooks.size() > 5) {
+            recentSeeBooks = recentSeeBooks.subList(0, 5);
+        }
 
         model.addAttribute("member", member);
         model.addAttribute("recentSeeBooks", recentSeeBooks);
