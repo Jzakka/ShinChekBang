@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,5 +100,14 @@ public class MemberController {
         model.addAttribute("recentSeeBooks", recentSeeBooks);
 
         return "/member/recents";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/recents")
+    public String deleteRecents(@AuthenticationPrincipal User user) {
+        Member member = memberService.getMember(user);
+        bookService.deleteRecentsOf(member);
+
+        return "redirect:/member/info";
     }
 }

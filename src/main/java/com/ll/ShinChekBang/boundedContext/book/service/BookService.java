@@ -103,4 +103,8 @@ public class BookService implements BaseService<Book> {
     public List<Book> recentSeeBooks(Member member) {
         return recentSeeBooksRepository.getBooks(member.getId());
     }
+
+    public void deleteRecentsOf(Member member) {
+        recentSeeBooksRepository.clear(member.getId());
+    }
 }

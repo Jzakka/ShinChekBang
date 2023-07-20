@@ -38,6 +38,14 @@
         </div>
         <div class="px-3">
             <!-- 최근 조회한 작품-->
+            <div class="flex justify-between mb-7">
+                <span class="text-xl font-bold">최근 조회한 작품</span>
+                <form th:action="|/member/recents|" method="post">
+                    <input type="hidden" name="_method" th:value="delete">
+                    <button type="submit" class="btn btn-sm btn-neutral">전체 삭제</button>
+                </form>
+            </div>
+
             <div class="grid grid-cols-5 gap-4">
                 <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
                     <a th:href="|books/${book.id}|">
