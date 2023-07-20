@@ -28,6 +28,7 @@ class RecentSeeBooksRepositoryTest {
     void 저장_조회_성공() {
         Long userId = 1L;
         Book book1 = Book.builder()
+                .id(1L)
                 .title("책1")
                 .build();
         repository.saveBook(userId, book1);

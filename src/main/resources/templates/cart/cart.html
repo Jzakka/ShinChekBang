@@ -29,7 +29,6 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="paymentAmount" id="paymentAmount" th:value="|${cart.totalPrice}|">
                 </form>
             </div>
             <div>
@@ -69,7 +68,6 @@
                 $('.sub-checkbox:checked').each(function(){
                     total += parseInt($(this).data('price'), 10);
                 });
-                $('#paymentAmount').val(total);
                 $('.totalPrice').html(total+'원');
             }
 
