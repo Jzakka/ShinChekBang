@@ -35,6 +35,7 @@ public class OrderService {
         return RsData.of("S-12", "주문을 생성했습니다.", order);
     }
 
+    @Transactional
     public RsData<Order> order(Member member, Receipt receipt) {
         List<Long> bookIds = receipt.getBooks().stream().map(Receipt.BookVO::getId).toList();
         List<Book> books = bookRepository.findAllById(bookIds);
