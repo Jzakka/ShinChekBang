@@ -40,9 +40,9 @@
             <!-- 최근 조회한 작품-->
             <div class="flex justify-between mb-7">
                 <span class="text-xl font-bold">최근 조회한 작품</span>
-                <form th:action="|/member/recents|" method="post">
+                <form id="deleteRecent" th:action="|/member/recents|" method="post">
                     <input type="hidden" name="_method" th:value="delete">
-                    <button type="submit" class="btn btn-sm btn-neutral">전체 삭제</button>
+                    <button type="submit" class="btn btn-sm btn-neutral" onclick="confirmDelete(event)">전체 삭제</button>
                 </form>
             </div>
 
@@ -61,7 +61,17 @@
         </div>
     </div>
 
+    <script th:javascript>
+        function confirmDelete(event) {
+            event.preventDefault();  // 폼 제출을 막습니다.
 
+            let userResponse = window.confirm("정말로 삭제하시겠습니까?");  // 경고창을 표시합니다.
+
+            if (userResponse) {  // 사용자가 "예"를 선택하면 폼을 제출합니다.
+                $("#deleteRecent").submit();
+            }
+        }
+    </script>
 </main>
 </body>
 </html>
