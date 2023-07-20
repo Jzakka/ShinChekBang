@@ -90,4 +90,14 @@ public class MemberController {
         model.addAttribute("recentSeeBooks", recentSeeBooks);
         return "/member/info";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/recents")
+    public String recentBooks(@AuthenticationPrincipal User user, Model model) {
+        Member member = memberService.getMember(user);
+        List<Book> recentSeeBooks = bookService.recentSeeBooks(member);
+        model.addAttribute("recentSeeBooks", recentSeeBooks);
+
+        return "/member/recents";
+    }
 }
