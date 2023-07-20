@@ -7,20 +7,21 @@ import com.ll.ShinChekBang.base.ut.Utils;
 import com.ll.ShinChekBang.boundedContext.category.entity.Category;
 import com.ll.ShinChekBang.boundedContext.review.entity.Review;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode(of = "id")
 @ToString(callSuper = true)
 public class Book extends BaseEntity {
     private String title;
@@ -88,5 +89,18 @@ public class Book extends BaseEntity {
         }
         float rateUnRounded = (float) reviews.stream().filter(review -> review.getRate() == rate).count() / reviews.size();
         return Utils.round(rateUnRounded, 4) * 100;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Book book = (Book) o;
+        return getId() != null && Objects.equals(getId(), book.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

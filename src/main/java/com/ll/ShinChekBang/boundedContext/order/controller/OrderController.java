@@ -8,7 +8,6 @@ import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
 import com.ll.ShinChekBang.boundedContext.order.service.OrderService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,11 +32,11 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping
     public String goToOrderPage(@RequestParam List<Long> bookIds,
-                                @RequestParam int paymentAccount,
+                                @RequestParam int paymentAmount,
                                 Model model) {
         List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
         model.addAttribute("books", books);
-        model.addAttribute("paymentAccount", paymentAccount);
+        model.addAttribute("paymentAmount", paymentAmount);
 
         return "order/order";
     }
@@ -47,10 +45,10 @@ public class OrderController {
     @PostMapping
     public String order(@AuthenticationPrincipal User user,
                         @RequestParam List<Long> bookIds,
-                        @RequestParam int paymentAccount) {
+                        @RequestParam int paymentAmount) {
         Member member = memberService.getMember(user);
         List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
-        RsData<Order> order = orderService.order(member, books, paymentAccount);
+        RsData<Order> order = orderService.order(member, books, paymentAmount);
 
 
         return "order/order";
