@@ -39,13 +39,12 @@ class BillRepositoryTest {
     @Test
     @DisplayName("계산서 생성 후 조회")
     void makeBillAndShow() {
-        Member member = Member.builder().id(1L).build();
         List<Book> books = makeTempBooks();
 
-        Bill bill = new Bill(member, books, 400);
+        Bill bill = new Bill(books, 400);
         billRepository.save(bill);
 
-        Optional<Bill> optionalBill = billRepository.findById(1L);
+        Optional<Bill> optionalBill = billRepository.findById(bill.getId());
         assertThat(optionalBill).isPresent();
         Bill foundOne = optionalBill.get();
         assertThat(foundOne).isEqualTo(bill);

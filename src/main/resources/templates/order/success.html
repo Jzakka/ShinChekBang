@@ -1,0 +1,14 @@
+<html layout:decorate="~{layout.html}">
+<head>
+  <title th:text="주문완료"></title>
+</head>
+<body>
+<main layout:fragment="main">
+  <div>
+    <span th:text="|주문번호:${receipt.orderId}|"></span>
+    <span th:text="|주문상품:${receipt.orderedBooks}|"></span>
+    <span th:text="|지불금액:${receipt.paymentAmount}|"></span>
+  </div>
+</main>
+</body>
+</html>

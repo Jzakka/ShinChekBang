@@ -2,11 +2,14 @@ package com.ll.ShinChekBang.base.ut;
 
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.base.service.BaseService;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class Utils {
     public static float round(float number, int pos) {
@@ -21,5 +24,10 @@ public class Utils {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, findResult.getMsg());
         }
         return findResult.getData();
+    }
+
+    @SneakyThrows
+    public static String getPGAuthorizations(String secretKey) {
+        return new String(Base64.getEncoder().encode(secretKey.getBytes(StandardCharsets.UTF_8)));
     }
 }

@@ -31,8 +31,6 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final BookService bookService;
-    @Value("api.tosspayments.secret")
-    private String tossSecretKey;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
@@ -41,24 +39,23 @@ public class OrderController {
                                 Model model) {
         Member member = memberService.getMember(user);
         List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
-        Bill bill = orderService.makeBill(member,books);
+        Bill bill = orderService.makeBill(books);
         model.addAttribute("books", books);
         model.addAttribute("bill", bill);
 
         return "order/order";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/success")
+    @GetMapping("/success")
     public String order(@AuthenticationPrincipal User user,
-                        @RequestParam("orderId") String paymentId,
+                        @RequestParam String orderId,
                         @RequestParam int amount,
                         @RequestParam String paymentKey,
                         Model model) {
         Member member = memberService.getMember(user);
 
         // 토스페이먼츠 서버와 통신
-        RsData<Order> paymentResult = orderService.pay(member, paymentId, amount, paymentKey);
+        RsData<Order> paymentResult = orderService.pay(member, orderId, amount, paymentKey);
 
         if (paymentResult.isFail()) {
             return "redirect:/order/fail";

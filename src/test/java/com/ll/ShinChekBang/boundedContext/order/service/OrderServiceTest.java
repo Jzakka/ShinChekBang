@@ -50,7 +50,7 @@ class OrderServiceTest {
         Book book2 = bookService.findByTitle("책2").getData().get(0);
         List<Book> orderBooks = List.of(book1, book2);
 
-        Bill receipt = orderService.makeBill(member1, orderBooks);
+        Bill receipt = orderService.makeBill(orderBooks);
 
         int paymentAmount = book1.getPrice() + book2.getPrice();
 

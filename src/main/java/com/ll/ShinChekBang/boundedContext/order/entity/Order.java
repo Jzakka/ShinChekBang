@@ -24,10 +24,15 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "memberId")
     @ToString.Exclude
     private Member member;
+
     private int paymentAccount;
+
+    @Column(unique = true)
+    private String orderId;
 
     @OneToMany(fetch = FetchType.LAZY)
     @Builder.Default
     @ToString.Exclude
     private List<Book> books = new ArrayList<>();
+
 }

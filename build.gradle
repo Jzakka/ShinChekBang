@@ -32,6 +32,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2.1'
+
+
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
