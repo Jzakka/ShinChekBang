@@ -1,6 +1,7 @@
 <html layout:decorate="~{layout.html}">
 <head>
     <title th:text="장바구니"></title>
+    <script src="https://js.tosspayments.com/v1"></script>
 </head>
 <body>
 <main layout:fragment="main">
@@ -22,10 +23,98 @@
                         <span>총 결제 금액</span><span class="totalPrice" th:text="|${receipt.paymentAmount}원|"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary w-full mt-3" onclick="$('#bill').submit()">결제하기</button>
+                <button class="btn btn-primary w-full mt-3" onclick="pay('카드',jsons.card);">일반결제창</button>
+                <button class="btn btn-primary w-full mt-3" onclick="pay('계좌이체',jsons.transfer);">계좌이체</button>
+                <button class="btn btn-primary w-full mt-3" onclick="pay('휴대폰',jsons.phone);">휴대폰</button>
+                <button class="btn btn-primary w-full mt-3" onclick="pay('문화상품권',jsons.certificate);">문화상품권</button>
+                <button class="btn btn-primary w-full mt-3" onclick="pay('도서문화상품권',jsons.bookcert);">도서문화상품권</button>
             </div>
         </div>
     </div>
+    <script>
+        let amount = 5000;
+        let tossPayments = TossPayments("test_ck_jkYG57Eba3GwB6eY1dQ3pWDOxmA1");
+
+        function pay(method, requestJson) {
+            tossPayments.requestPayment(method,requestJson)
+                .catch(err=>{
+                   if(err.code === 'USER_CANCEL'){
+                       alert('결제를 취소하였습니다.');
+                   } else {
+                       alert(err.message);
+                   }
+                });
+        }
+
+        let successUrl = window.location.origin + '/order/success';
+        let failUrl = window.location.origin + '/order/fail';
+        let orderId = new Date().getTime();
+
+        let jsons = {
+            'card' : {
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "cardCompany": null,
+                "cardInstallmentPlan": null,
+                "maxCardInstallmentPlan": null,
+                "useCardPoint": false,
+                "customerName": "박토스",
+                "customerEmail": null,
+                "customerMobilePhone": null,
+                "taxFreeAmount": null,
+                "useInternationalCardOnly": false,
+                "flowMode": "DEFAULT",
+                "discountCode": null,
+                "appScheme": null
+            },
+            "transfer": { //계좌이체 결제창
+
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "customerName": "박토스",
+                "customerEmail": null,
+                "customerMobilePhone": null,
+                "taxFreeAmount": null,
+                "cashReceipt": {
+                    "type": "소득공제"
+                },
+                "useEscrow": false
+
+            },
+            "phone": { // 휴대폰 결제창
+
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl,
+                "mobileCarrier": null
+
+            },
+
+            "certificate": { //상품권 결제창
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl
+            },
+
+            "bookcert": { //도서문화상품권 결제창
+                "amount": amount,
+                "orderId": "sample-" + orderId,
+                "orderName": "토스 티셔츠 외 2건",
+                "successUrl": successUrl,
+                "failUrl": failUrl
+            }
+        };
+    </script>
 </main>
 </body>
 </html>

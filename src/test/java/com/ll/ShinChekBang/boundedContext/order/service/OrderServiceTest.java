@@ -7,7 +7,7 @@ import com.ll.ShinChekBang.boundedContext.cart.service.CartService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.repository.MemberRepository;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
-import com.ll.ShinChekBang.boundedContext.order.vo.Receipt;
+import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,13 +33,14 @@ class OrderServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
+    Member member1;
     @BeforeEach
     void 장바구니에_물건담기() {
-        Member user1 = memberRepository.findByUsername("user1").get();
+        member1 = memberRepository.findByUsername("user1").get();
         Book book1 = bookService.findByTitle("책1").getData().get(0);
         Book book2 = bookService.findByTitle("책2").getData().get(0);
-        cartService.addToCart(user1.getCart(), book1);
-        cartService.addToCart(user1.getCart(), book2);
+        cartService.addToCart(member1.getCart(), book1);
+        cartService.addToCart(member1.getCart(), book2);
     }
 
     @Test
@@ -49,7 +50,7 @@ class OrderServiceTest {
         Book book2 = bookService.findByTitle("책2").getData().get(0);
         List<Book> orderBooks = List.of(book1, book2);
 
-        Receipt receipt = orderService.makeReceipt(orderBooks);
+        Bill receipt = orderService.makeBill(member1, orderBooks);
 
         int paymentAmount = book1.getPrice() + book2.getPrice();
 

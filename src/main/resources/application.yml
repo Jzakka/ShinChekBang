@@ -14,3 +14,6 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+api:
+  tosspayments:
+    secret: ${TOSS_PG_SECRET}

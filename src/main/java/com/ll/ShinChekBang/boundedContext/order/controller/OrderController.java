@@ -8,8 +8,10 @@ import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
 import com.ll.ShinChekBang.boundedContext.order.service.OrderService;
-import com.ll.ShinChekBang.boundedContext.order.vo.Receipt;
+import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
+import com.ll.ShinChekBang.boundedContext.order.temporary.Receipt;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -29,27 +31,42 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final BookService bookService;
+    @Value("api.tosspayments.secret")
+    private String tossSecretKey;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public String goToOrderPage(@RequestParam List<Long> bookIds, Model model) {
+    public String goToOrderPage(@AuthenticationPrincipal User user,
+                                @RequestParam List<Long> bookIds,
+                                Model model) {
+        Member member = memberService.getMember(user);
         List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
-        Receipt receipt = orderService.makeReceipt(books);
+        Bill bill = orderService.makeBill(member,books);
         model.addAttribute("books", books);
-        model.addAttribute("receipt", receipt);
+        model.addAttribute("bill", bill);
 
         return "order/order";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping
-    public String order(@AuthenticationPrincipal User user, @RequestParam List<Long> bookIds) {
+    @PostMapping("/success")
+    public String order(@AuthenticationPrincipal User user,
+                        @RequestParam("orderId") String paymentId,
+                        @RequestParam int amount,
+                        @RequestParam String paymentKey,
+                        Model model) {
         Member member = memberService.getMember(user);
-        List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
-        Receipt receipt = orderService.makeReceipt(books);
-        RsData<Order> order = orderService.order(member, receipt);
 
+        // 토스페이먼츠 서버와 통신
+        RsData<Order> paymentResult = orderService.pay(member, paymentId, amount, paymentKey);
 
-        return "order/order";
+        if (paymentResult.isFail()) {
+            return "redirect:/order/fail";
+        }
+
+        Receipt receipt = new Receipt(paymentResult.getData());
+        model.addAttribute(receipt);
+
+        return "order/success";
     }
 }
