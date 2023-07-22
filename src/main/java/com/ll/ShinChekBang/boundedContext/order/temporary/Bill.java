@@ -1,6 +1,7 @@
 package com.ll.ShinChekBang.boundedContext.order.temporary;
 
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
+import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class Bill {
     private int paymentAmount;
     private String orderName;
 
-    public Bill( List<Book> books, int paymentAmount) {
+    public Bill(List<Book> books, int paymentAmount) {
         this.id = UUID.randomUUID().toString();
         this.books = books.stream()
                 .map(book -> new Bill.BookVO(book.getId(), book.getTitle(), book.getPrice()))

@@ -40,8 +40,9 @@ class BillRepositoryTest {
     @DisplayName("계산서 생성 후 조회")
     void makeBillAndShow() {
         List<Book> books = makeTempBooks();
+        Member member = Member.builder().id(20L).build();
 
-        Bill bill = new Bill(books, 400);
+        Bill bill = new Bill( books, 400);
         billRepository.save(bill);
 
         Optional<Bill> optionalBill = billRepository.findById(bill.getId());

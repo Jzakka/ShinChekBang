@@ -70,7 +70,7 @@ public class OrderService {
     public Bill makeBill(List<Book> books) {
         // 추후에 할인정책에 따라 결제총액 계산방법이 변경될 수도 있음
         int paymentAmount = books.stream().mapToInt(Book::getPrice).sum();
-        Bill bill = new Bill(books, paymentAmount);
+        Bill bill = new Bill( books, paymentAmount);
         billRepository.save(bill);
 
         return bill;
@@ -80,16 +80,11 @@ public class OrderService {
     public RsData<Order> pay(Member member, String orderId, int amount, String paymentKey) {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setBasicAuth(Utils.getPGAuthorizations(tossSecretKey+":"));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        String params = getParamsJson(orderId, amount);
-        HttpEntity data = new HttpEntity<>(params, headers);
+        HttpEntity requestEntity = getRequestEntity(orderId, amount, headers);
 
         ResponseEntity<String> approvedPayment = restTemplate.postForEntity(
                 TOSS_PG_URL + paymentKey,
-                data,
+                requestEntity,
                 String.class
         );
 
@@ -116,6 +111,16 @@ public class OrderService {
 
         billRepository.deleteById(orderId);
         return RsData.of("F-20", "잘못된 결제요청입니다.");
+    }
+
+    private HttpEntity getRequestEntity(String orderId, int amount, HttpHeaders headers) {
+        headers.setBasicAuth(Utils.getPGAuthorizations(tossSecretKey+":"));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        String params = getParamsJson(orderId, amount);
+        HttpEntity data = new HttpEntity<>(params, headers);
+        return data;
     }
 
     private String getParamsJson(String orderId, int amount) {

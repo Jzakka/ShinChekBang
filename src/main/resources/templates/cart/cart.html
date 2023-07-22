@@ -7,13 +7,14 @@
     <div class="mx-auto w-4/5 ">
         <h2 class="text-2xl font-bold mb-5 text-gray-900">장바구니</h2>
         <div class="flex justify-between items-start">
-            <div class="min-w-[550px] border border-stone-950 p-3">
+            <div class="min-w-[550px] border border-stone-950 p-5">
                 <form id="bill" th:action="@{/order}" method="get">
                     <input type="checkbox" id="master" checked>
                     <div th:each="book :${cart.getBooks()}" class="gap-2 cartItem">
                         <hr class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-300">
                         <div class="flex gap-2 mt-3">
-                            <input class="sub-checkbox" type="checkbox" th:value="${book.id}" name="bookIds" checked th:data-price="${book.price}">
+                            <input class="sub-checkbox" type="checkbox" th:value="${book.id}" name="bookIds" checked
+                                   th:data-price="${book.price}">
                             <a th:href="@{|/books/${book.id}|}">
                                 <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
                                      class="w-[60px] h-[85px]">
@@ -21,11 +22,15 @@
                             <div class="flex-grow max-w-[400px]">
                                 <p th:text="${book.title}"></p>
                                 <p th:text="${book.author}"></p>
-                                <a href="javascript:void(0);"
-                                   th:attr="onclick='return confirmDelete(\'' + ${book.title} + '\', \'' + ${cart.id} + '\', \'' + ${book.id} + '\');'">삭제</a>
                             </div>
                             <div class="mx-auto flex items-center justify-center">
                                 <p class="align-center mr-3" th:text="|${book.price}원|"></p>
+                            </div>
+                            <div class="mx-auto flex items-center justify-center">
+                                <a href="javascript:void(0);"
+                                   th:attr="onclick='return confirmDelete(\'' + ${book.title} + '\', \'' + ${cart.id} + '\', \'' + ${book.id} + '\');'">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

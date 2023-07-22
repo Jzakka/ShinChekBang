@@ -4,6 +4,7 @@ import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.base.ut.Utils;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.book.service.BookService;
+import com.ll.ShinChekBang.boundedContext.cart.service.CartService;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import com.ll.ShinChekBang.boundedContext.member.service.MemberService;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
@@ -11,14 +12,12 @@ import com.ll.ShinChekBang.boundedContext.order.service.OrderService;
 import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
 import com.ll.ShinChekBang.boundedContext.order.temporary.Receipt;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,6 +30,7 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final BookService bookService;
+    private final CartService cartService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
@@ -58,6 +58,9 @@ public class OrderController {
         if (paymentResult.isFail()) {
             return "redirect:/order/fail";
         }
+
+        // 장바구니 비우기
+        cartService.takeOff(member, paymentResult.getData().getBooks());
 
         Receipt receipt = new Receipt(paymentResult.getData());
         model.addAttribute(receipt);

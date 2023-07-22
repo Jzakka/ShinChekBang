@@ -3,13 +3,14 @@ package com.ll.ShinChekBang.boundedContext.cart.service;
 import com.ll.ShinChekBang.base.result.RsData;
 import com.ll.ShinChekBang.base.service.BaseService;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
-import com.ll.ShinChekBang.boundedContext.book.repository.BookRepository;
 import com.ll.ShinChekBang.boundedContext.cart.entity.Cart;
 import com.ll.ShinChekBang.boundedContext.cart.repository.CartRepository;
+import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,5 +46,13 @@ public class CartService implements BaseService<Cart> {
         cart.getBooks().remove(book);
         cartRepository.save(cart);
         return RsData.of("S-12", "장바구니에서 성공적으로 삭제했습니다.");
+    }
+
+    @Transactional
+    public RsData<Cart> takeOff(Member member, List<Book> books) {
+        Cart memberCart = member.getCart();
+        memberCart.takeOff(books);
+        cartRepository.save(memberCart);
+        return RsData.successOf(memberCart);
     }
 }

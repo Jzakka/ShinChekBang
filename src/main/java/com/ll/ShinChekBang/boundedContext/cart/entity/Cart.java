@@ -31,4 +31,8 @@ public class Cart extends BaseEntity {
     public int getTotalPrice() {
         return books.stream().mapToInt(Book::getPrice).sum();
     }
+
+    public void takeOff(List<Book> toTakeOffs) {
+        books.removeIf(toTakeOffs::contains);
+    }
 }
