@@ -84,21 +84,16 @@ public class OrderService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        String params = """
-                {
-                    "orderId" : "%s",
-                    "amount" : %d
-                }
-                """.formatted(orderId, amount);
-
+        String params = getParamsJson(orderId, amount);
         HttpEntity data = new HttpEntity<>(params, headers);
-        ResponseEntity<String> paymentValidation = restTemplate.postForEntity(
+
+        ResponseEntity<String> approvedPayment = restTemplate.postForEntity(
                 TOSS_PG_URL + paymentKey,
                 data,
                 String.class
         );
 
-        if (paymentValidation.getStatusCode().is2xxSuccessful()) {
+        if (approvedPayment.getStatusCode().is2xxSuccessful()) {
             Bill bill = billRepository.findById(orderId)
                     .orElseThrow(() -> {
                         billRepository.deleteById(orderId);
@@ -121,5 +116,14 @@ public class OrderService {
 
         billRepository.deleteById(orderId);
         return RsData.of("F-20", "잘못된 결제요청입니다.");
+    }
+
+    private String getParamsJson(String orderId, int amount) {
+        return """
+                {
+                    "orderId" : "%s",
+                    "amount" : %d
+                }
+                """.formatted(orderId, amount);
     }
 }

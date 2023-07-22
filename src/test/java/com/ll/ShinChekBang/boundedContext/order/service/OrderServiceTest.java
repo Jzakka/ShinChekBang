@@ -11,14 +11,23 @@ import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
 @Transactional
@@ -26,6 +35,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OrderServiceTest {
     @Autowired
     OrderService orderService;
+    @MockBean
+    RestTemplate restTemplate;
     @Autowired
     CartService cartService;
     @Autowired
@@ -34,6 +45,7 @@ class OrderServiceTest {
     MemberRepository memberRepository;
 
     Member member1;
+
     @BeforeEach
     void 장바구니에_물건담기() {
         member1 = memberRepository.findByUsername("user1").get();
@@ -71,5 +83,16 @@ class OrderServiceTest {
 
         assertThat(orderResult.isSuccess()).isTrue();
         assertThat(orderResult.getData().getPaymentAccount()).isEqualTo(25000);
+    }
+
+    @Test
+    @DisplayName("PG결제 테스트, 주문 정보가 없음")
+    void pay() {
+        Mockito
+                .when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>("dummy response", HttpStatus.OK));
+
+        assertThatThrownBy(() -> orderService.pay(member1, "dummyId", 1000, "dummyKey"))
+                .isInstanceOf(ResponseStatusException.class);
     }
 }

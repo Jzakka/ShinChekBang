@@ -34,10 +34,7 @@ public class OrderController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public String goToOrderPage(@AuthenticationPrincipal User user,
-                                @RequestParam List<Long> bookIds,
-                                Model model) {
-        Member member = memberService.getMember(user);
+    public String goToOrderPage(@RequestParam List<Long> bookIds, Model model) {
         List<Book> books = bookIds.stream().map(id -> Utils.getData(id, bookService)).toList();
         Bill bill = orderService.makeBill(books);
         model.addAttribute("books", books);
@@ -46,6 +43,7 @@ public class OrderController {
         return "order/order";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/success")
     public String order(@AuthenticationPrincipal User user,
                         @RequestParam String orderId,
