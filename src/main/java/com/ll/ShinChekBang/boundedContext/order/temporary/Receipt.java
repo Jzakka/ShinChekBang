@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 @Getter
 public class Receipt {
-    private Long orderId;
+    private String orderId;
     private String orderedBooks;
     private Integer paymentAmount;
 
     public Receipt(Order order) {
-        orderId = order.getId();
+        orderId = order.getOrderId();
         orderedBooks = order.getBooks().stream().map(book -> book.getTitle()+"\n").collect(Collectors.joining());
         paymentAmount = order.getPaymentAccount();
     }

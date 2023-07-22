@@ -12,6 +12,7 @@ import com.ll.ShinChekBang.boundedContext.order.service.OrderService;
 import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
 import com.ll.ShinChekBang.boundedContext.order.temporary.Receipt;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -45,11 +46,11 @@ public class OrderController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/success")
-    public String order(@AuthenticationPrincipal User user,
-                        @RequestParam String orderId,
-                        @RequestParam int amount,
-                        @RequestParam String paymentKey,
-                        Model model) {
+    public String orderSuccess(@AuthenticationPrincipal User user,
+                               @RequestParam String orderId,
+                               @RequestParam int amount,
+                               @RequestParam String paymentKey,
+                               Model model) {
         Member member = memberService.getMember(user);
 
         // 토스페이먼츠 서버와 통신
@@ -66,5 +67,24 @@ public class OrderController {
         model.addAttribute(receipt);
 
         return "order/success";
+    }
+
+    @GetMapping("/fail")
+    public String orderFail() {
+        return "error/4xx";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/history")
+    public String orderHistory(@AuthenticationPrincipal User user,
+                               @RequestParam(required = false, defaultValue = "0") int page,
+                               Model model) {
+        Member member = memberService.getMember(user);
+
+        Page<Receipt> orders = orderService.getOrders(member, page);
+
+        model.addAttribute("orders",orders);
+
+        return "order/history";
     }
 }

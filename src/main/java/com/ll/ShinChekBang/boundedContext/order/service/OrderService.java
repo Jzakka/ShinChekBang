@@ -10,14 +10,15 @@ import com.ll.ShinChekBang.boundedContext.order.repository.BillRepository;
 import com.ll.ShinChekBang.boundedContext.order.repository.OrderRepository;
 import com.ll.ShinChekBang.boundedContext.order.temporary.Bill;
 import com.ll.ShinChekBang.boundedContext.order.entity.Order;
+import com.ll.ShinChekBang.boundedContext.order.temporary.Receipt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,6 +35,7 @@ public class OrderService {
     private final BillRepository billRepository;
     private final RestTemplate restTemplate;
     private final String TOSS_PG_URL = "https://api.tosspayments.com/v1/payments/";
+    private final int PAGE_SIZE = 5;
     @Value("${api.tosspayments.secret}")
     private String tossSecretKey;
     @Transactional
@@ -130,5 +132,11 @@ public class OrderService {
                     "amount" : %d
                 }
                 """.formatted(orderId, amount);
+    }
+
+    public Page<Receipt> getOrders(Member member, int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Page<Order> orders = orderRepository.findTop5ByMemberOrderByCreateDateDesc(member, pageable);
+        return orders.map(Receipt::new);
     }
 }
