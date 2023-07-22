@@ -1,79 +1,45 @@
-<html layout:decorate="~{layout.html}">
+<html layout:decorate="~{member/member-layout.html}">
 <head>
     <title th:text="|내 정보|"></title>
 </head>
 <body>
-<main layout:fragment="main">
-    <div class="flex justify-between mt-10">
-        <div class="w-1/5 mr-[20px] gap-3 flex flex-col">
-            <p class="text-2xl font-bold mb-[10px]">나의 정보</p>
-            <div class="border-b-2 pb-3">
-                <p  class="font-semibold text-gray-600 hover:text-gray-500 mb-[4px]"><a href="#"><i class="fa-solid fa-house"></i> 정보홈</a></p>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-book-open"></i> 책</p>
-                <ul class="gap-1 flex flex-col">
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">선호작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">최근 조회한 작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">위시리스트</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">선호작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">신간알림</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">이벤트 알림 설정</a></li>
-                </ul>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-user"></i> 개인</p>
-                <ul class="gap-1  flex flex-col">
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">1:1문의</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">리뷰관리</a></li>
-                </ul>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-credit-card"></i> 구매/혜택</p>
-                <ul class="gap-1  flex flex-col">
-                    <li><a href="/order/history" class="text-gray-500 hover:text-gray-600">결제내역</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">쿠폰</a></li>
-                </ul>
-            </div>
+<div class="px-3" layout:fragment="content">
+    <!-- 계정 정보 -->
+    <div class="border-2 border-gray-800 w-[721px] h-[341px] flex">
+        <div class="bg-blue-100 w-1/4 flex flex-col gap-2 p-6">
+            <p class="text-center text-xl font-bold" th:text="${member.username}"></p>
+            <p class="text-center text-xs font-light text-gray-400" th:text="${member.email}"></p>
+
+            <form th:action="@{/member/logout}" method="post" class="mx-auto">
+                <button type="submit" class="btn btn-outline btn-sm">로그아웃</button>
+            </form>
         </div>
-        <div class="px-3">
-            <!-- 계정 정보 -->
-            <div class="border-2 border-gray-800 w-[721px] h-[341px] flex">
-                <div class="bg-blue-100 w-1/4 flex flex-col gap-2 p-6">
-                    <p class="text-center text-xl font-bold" th:text="${member.username}"></p>
-                    <p class="text-center text-xs font-light text-gray-400" th:text="${member.email}"></p>
+        <div>
 
-                    <form th:action="@{/member/logout}" method="post" class="mx-auto">
-                        <button type="submit" class="btn btn-outline btn-sm">로그아웃</button>
-                    </form>
-                </div>
-                <div>
+        </div>
+    </div>
 
-                </div>
-            </div>
+    <!-- 최근 조회한 작품 -->
 
-            <!-- 최근 조회한 작품 -->
+    <div class="flex gap-3 items-center my-5">
+        <p class="text-lg font-semibold">최근 조회한 작품</p>
+        <hr class="h-[2px] border-0 rounded flex-grow dark:bg-gray-300">
+        <a href="/member/recents" class="btn btn-xs">전체 보기 >></a>
+    </div>
 
-            <div class="flex gap-3 items-center my-5">
-                <p class="text-lg font-semibold">최근 조회한 작품</p>
-                <hr class="h-[2px] border-0 rounded flex-grow dark:bg-gray-300">
-                <a href="/member/recents" class="btn btn-xs">전체 보기 >></a>
-            </div>
-
-            <div class="grid grid-cols-5 gap-4">
-                <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
-                    <a th:href="|books/${book.id}|">
-                        <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
-                             class="w-[110px] h-[150px]">
-                    </a>
-                    <div>
-                        <a th:href="|books/${book.id}|" class="text-sm font-bold" th:text="${book.title}"></a>
-                        <div th:text="${book.author}" class="text-sm font-extralight text-neutral-400"></div>
-                    </div>
-                </div>
+    <div class="grid grid-cols-5 gap-4">
+        <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
+            <a th:href="|books/${book.id}|">
+                <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                     class="w-[110px] h-[150px]">
+            </a>
+            <div>
+                <a th:href="|books/${book.id}|" class="text-sm font-bold" th:text="${book.title}"></a>
+                <div th:text="${book.author}" class="text-sm font-extralight text-neutral-400"></div>
             </div>
         </div>
     </div>
-</main>
+</div>
+</div>
 </body>
 </html>

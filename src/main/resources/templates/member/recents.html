@@ -1,66 +1,30 @@
-<html layout:decorate="~{layout.html}">
+<html layout:decorate="~{member/member-layout.html}">
 <head>
-    <title th:text="|내 정보|"></title>
+    <title th:text="|최근 조회한 작품|"></title>
 </head>
 <body>
-<main layout:fragment="main">
-    <div class="flex justify-between mt-10">
-        <div class="w-1/5 mr-[20px] gap-3 flex flex-col">
-            <p class="text-2xl font-bold mb-[10px]">나의 정보</p>
-            <div class="border-b-2 pb-3">
-                <p  class="font-semibold text-gray-600 hover:text-gray-500 mb-[4px]"><a href="#"><i class="fa-solid fa-house"></i> 정보홈</a></p>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-book-open"></i> 책</p>
-                <ul class="gap-1 flex flex-col">
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">선호작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">최근 조회한 작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">위시리스트</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">선호작품</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">신간알림</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">이벤트 알림 설정</a></li>
-                </ul>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-user"></i> 개인</p>
-                <ul class="gap-1  flex flex-col">
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">1:1문의</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">리뷰관리</a></li>
-                </ul>
-            </div>
-            <div class="border-b-2 pb-3">
-                <p class="font-semibold text-gray-600 mb-[4px]"><i class="fa-solid fa-credit-card"></i> 구매/혜택</p>
-                <ul class="gap-1  flex flex-col">
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">결제내역</a></li>
-                    <li><a href="#" class="text-gray-500 hover:text-gray-600">쿠폰</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="px-3">
-            <!-- 최근 조회한 작품-->
-            <div class="flex justify-between mb-7">
-                <span class="text-xl font-bold">최근 조회한 작품</span>
-                <form id="deleteRecent" th:action="|/member/recents|" method="post">
-                    <input type="hidden" name="_method" th:value="delete">
-                    <button type="submit" class="btn btn-sm btn-neutral" onclick="confirmDelete(event)">전체 삭제</button>
-                </form>
-            </div>
+<div class="px-3" layout:fragment="content">
+    <!-- 최근 조회한 작품-->
+    <div class="flex justify-between mb-7">
+        <span class="text-xl font-bold">최근 조회한 작품</span>
+        <form id="deleteRecent" th:action="|/member/recents|" method="post">
+            <input type="hidden" name="_method" th:value="delete">
+            <button type="submit" class="btn btn-sm btn-neutral" onclick="confirmDelete(event)">전체 삭제</button>
+        </form>
+    </div>
 
-            <div class="grid grid-cols-5 gap-4">
-                <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
-                    <a th:href="|books/${book.id}|">
-                        <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
-                             class="w-[110px] h-[150px]">
-                    </a>
-                    <div>
-                        <a th:href="|books/${book.id}|" class="text-sm font-bold" th:text="${book.title}"></a>
-                        <div th:text="${book.author}" class="text-sm font-extralight text-neutral-400"></div>
-                    </div>
-                </div>
+    <div class="grid grid-cols-5 gap-4">
+        <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
+            <a th:href="|books/${book.id}|">
+                <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                     class="w-[110px] h-[150px]">
+            </a>
+            <div>
+                <a th:href="|books/${book.id}|" class="text-sm font-bold" th:text="${book.title}"></a>
+                <div th:text="${book.author}" class="text-sm font-extralight text-neutral-400"></div>
             </div>
         </div>
     </div>
-
     <script th:javascript>
         function confirmDelete(event) {
             event.preventDefault();  // 폼 제출을 막습니다.
@@ -72,6 +36,6 @@
             }
         }
     </script>
-</main>
+</div>
 </body>
 </html>

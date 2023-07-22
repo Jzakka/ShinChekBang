@@ -85,6 +85,6 @@ public class OrderController {
 
         model.addAttribute("orders",orders);
 
-        return "order/history";
+        return "member/order-history";
     }
 }

@@ -1,0 +1,14 @@
+<html layout:decorate="~{member/member-layout.html}">
+<head>
+    <title th:text="|결제내역|"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:each="order:${orders}">
+        <span th:text="|주문번호:${order.orderId}|"></span>
+        <span th:text="|주문상품:${order.orderedBooks}|"></span>
+        <span th:text="|결제금액:${order.paymentAmount}|"></span>
+    </div>
+</div>
+</body>
+</html>
