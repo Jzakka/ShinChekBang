@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="autumn">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <!-- 제이쿼리 불러오기 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <!-- 데이지 UI 불러오기 -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css"/>
     <!-- tailwind 불러오기 -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 데이지 UI 불러오기 -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.3.1/dist/full.css" rel="stylesheet" type="text/css"/>
     <!-- 공통 css -->
     <link rel="stylesheet" th:href="@{/common.css}">
 
@@ -18,6 +17,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">신책방</title>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        };
+    </script>
 </head>
 
 <body>
@@ -30,7 +36,7 @@
         </div>
         <hr>
     </div>
-    <div class="container w-3/4">
+    <div class="container w-3/5">
         <header layout:fragment="header"></header>
         <div class="mx-auto mt-6">
             <main layout:fragment="main"></main>

@@ -71,4 +71,8 @@ svg {
     display: block; /* 메뉴에 호버하면 서브 메뉴를 보여줌 */
 }
 
-
+button.myButton {
+    -webkit-appearance: none;
+    background-color: initial;
+    background-image: initial;
+}
