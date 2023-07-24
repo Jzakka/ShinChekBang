@@ -45,6 +45,7 @@ public class Book extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private UploadFile thumbnail;
 
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> images;
 

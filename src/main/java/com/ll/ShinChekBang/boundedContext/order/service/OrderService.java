@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,16 +41,12 @@ public class OrderService {
     private String tossSecretKey;
     @Transactional
     public RsData<Order> order(Member member, List<Book> orderBooks, int paymentAmount) {
-        Order order = Order.builder()
-                .member(member)
-                .books(orderBooks)
-                .paymentAccount(paymentAmount)
-                .build();
-        member.getOrders().add(order);
-        memberRepository.save(member);
-        memberRepository.flush();
+        List<Bill.BookVO> bookVOS = orderBooks.stream()
+                .map(book -> new Bill.BookVO(book.getId(), book.getTitle(), book.getPrice()))
+                .toList();
+        Bill bill = new Bill(UUID.randomUUID().toString(), bookVOS, paymentAmount, member.getUsername() + "의 초기주문");
 
-        return RsData.of("S-12", "주문을 생성했습니다.", order);
+        return order(member, bill);
     }
 
     @Transactional
@@ -63,6 +60,7 @@ public class OrderService {
                 .paymentAccount(receipt.getPaymentAmount())
                 .build();
         member.getOrders().add(order);
+        orderRepository.save(order);
         memberRepository.save(member);
         memberRepository.flush();
 

@@ -30,7 +30,7 @@ public class Order extends BaseEntity {
     @Column(unique = true)
     private String orderId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @Builder.Default
     @ToString.Exclude
     private List<Book> books = new ArrayList<>();
