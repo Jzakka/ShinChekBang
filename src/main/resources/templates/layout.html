@@ -6,7 +6,9 @@
             <img class="block h-[40px]" th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
         </a>
         <div class="flex-grow grid justify-items-center">
-            <input type="text" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
+            <form th:action="|@{/books}|" method="get" id="bookSearchForm">
+                <input type="text" id="bookSearch" name="title" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
+            </form>
         </div>
         <div class="items-center flex justify-between flex-none gap-5 h-auto">
             <div>
@@ -23,6 +25,16 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#bookSearch').keypress(function(event) {
+                let keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode === '13') {
+                    $('bookSearchForm').submit();
+                }
+            });
+        });
+    </script>
 </header>
 </body>
 </html>

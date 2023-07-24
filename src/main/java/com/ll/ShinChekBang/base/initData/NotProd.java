@@ -84,7 +84,7 @@ public class NotProd {
             categoryService.categorize(book2, koreanNovel);
             categoryService.categorize(book3, koreanNovel);
 
-            for (int i = 4; i <= 25; i++) {
+            for (int i = 4; i <= 222; i++) {
                 Book book = bookService.addNewBook("책%d".formatted(i), "글쓴이", "소개%d".formatted(i), i * 100, null, null).getData();
                 categoryService.categorize(book, koreanNovel);
             }

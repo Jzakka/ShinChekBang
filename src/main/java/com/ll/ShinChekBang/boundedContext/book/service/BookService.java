@@ -59,11 +59,14 @@ public class BookService implements BaseService<Book> {
         return bookRepository.findAll();
     }
 
-    public Page<Book> showBooks(int page) {
+    public Page<Book> showBooks(String title, int page) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
-        return bookRepository.findAll(pageable);
+        if (title == null) {
+            return bookRepository.findAll(pageable);
+        }
+        return bookRepository.findByTitleContainingIgnoreCase(title, pageable);
     }
 
     @Override

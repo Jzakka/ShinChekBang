@@ -48,8 +48,10 @@ public class BookController {
     }
 
     @GetMapping
-    public String books(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Book> books = bookService.showBooks(page);
+    public String books(@RequestParam(defaultValue = "0") int page,
+                        @RequestParam(required = false) String title,
+                        Model model) {
+        Page<Book> books = bookService.showBooks(title, page);
         model.addAttribute("books", books);
         return "/books/recent";
     }
