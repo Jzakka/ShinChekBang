@@ -5,5 +5,9 @@ import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import java.util.List;
 
 public interface BookRepositoryCustom {
+    List<Book> findTop100InPastWeek();
+
+    List<Book> findTop100InPastMonth();
+
     List<Book> findTop100InPastYear();
 }
