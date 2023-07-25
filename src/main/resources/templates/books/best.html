@@ -1,0 +1,51 @@
+<html layout:decorate="~{layout.html}">
+<head>
+  <title th:text="|판매량 BEST|"></title>
+</head>
+<body>
+<main layout:fragment="main">
+    <label for="duration">기간선택</label>
+    <select id="duration" name="duration" onchange="renderBestSellers(this.value)">
+        <option value="w">일주일</option>
+        <option value="m">한달</option>
+        <option value="y">일년</option>
+    </select>
+  <div id="bestSeller">
+  </div>
+  <script th:javascript>
+    function bookHtml(book) {
+      return `
+      <a href="/books/${book.id}">
+        <img src="/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}" class="w-[110px] h-[150px]">
+      </a>
+      <div class="flex-grow">
+          <a href="|books/${book.id}|">${book.title}</a>
+          <p class="text-xs text-slate-500">${book.author}</p>
+          <p  class="text-xs text-orange-600">★${book.rate}</p>
+          <p  class="text-sm my-3">${book.description}</p>
+          <p  class="text-xs text-sky-600">${book.price}원</p>
+      </div>
+      `;
+    }
+
+    function renderBestSellers(duration) {
+      $.ajax({
+        url: `/books/best/api?duration=${duration}`,
+        type: "GET",
+        success: rsData=>{
+          if(rsData.success){
+            $('#bestSeller').empty();
+            rsData.data.forEach(book=>{
+              $('#bestSeller').append(bookHtml(book));
+            })
+          }else{
+            console.log(rsData.msg);
+          }
+        },
+        error: (xhr, text, err) => console.log(text, err)
+      });
+    }
+  </script>
+</main>
+</body>
+</html>

@@ -57,7 +57,6 @@ public class BookController {
     }
 
 
-
     @PreAuthorize("isAuthenticated() && hasAuthority('admin')")
     @GetMapping("/new")
     public String newBook(BookForm bookForm) {
@@ -107,5 +106,16 @@ public class BookController {
             return "/books/info";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, bookResult.getMsg());
+    }
+
+    @GetMapping("/best")
+    public String bestSeller() {
+        return "books/best";
+    }
+
+    @GetMapping("/best/api")
+    @ResponseBody
+    public RsData<List<Book>> bestSeller(@RequestParam Character duration) {
+        return bookService.showTop100(Character.toLowerCase(duration));
     }
 }

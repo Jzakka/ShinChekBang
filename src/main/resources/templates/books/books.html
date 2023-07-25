@@ -34,7 +34,7 @@
             <div class="divide-y divide-solid">
                 <div th:each="book, loop: ${books}" class="flex p-3 gap-2 items-center">
                     <p th:text="${books.getTotalElements - (books.number*books.size) - loop.index}" class="font-bold text-lg"></p>
-                    <a th:href="|books/${book.id}|">
+                    <a th:href="|/books/${book.id}|">
                         <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
                              class="w-[110px] h-[150px]">
                     </a>

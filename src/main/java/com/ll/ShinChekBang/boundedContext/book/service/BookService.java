@@ -15,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,5 +111,14 @@ public class BookService implements BaseService<Book> {
 
     public void deleteRecentsOf(Member member) {
         recentSeeBooksRepository.clear(member.getId());
+    }
+
+    public RsData<List<Book>> showTop100(Character duration) {
+        return switch (duration) {
+            case 'w' -> RsData.successOf(bookRepository.findTop100InPastWeek());
+            case 'm' -> RsData.successOf(bookRepository.findTop100InPastMonth());
+            case 'y' -> RsData.successOf(bookRepository.findTop100InPastYear());
+            default -> RsData.of("F", "올바른 기간을 선택해주세요. (W,M,Y)");
+        };
     }
 }
