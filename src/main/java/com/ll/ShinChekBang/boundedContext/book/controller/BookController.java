@@ -47,7 +47,7 @@ public class BookController {
         int price;
     }
 
-    @GetMapping
+    @GetMapping("/recent")
     public String books(@RequestParam(defaultValue = "0") int page,
                         @RequestParam(required = false) String title,
                         Model model) {
@@ -55,6 +55,7 @@ public class BookController {
         model.addAttribute("books", books);
         return "/books/recent";
     }
+
 
 
     @PreAuthorize("isAuthenticated() && hasAuthority('admin')")

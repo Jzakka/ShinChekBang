@@ -76,3 +76,53 @@ button.myButton {
     background-color: initial;
     background-image: initial;
 }
+
+.round-menu-ul{
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin: 0px auto;
+}
+
+.round-menu-li{
+    display: inline-block;
+    flex: 0 0 auto;
+    margin: 0px 10px;
+}
+
+.round-a{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 70px;
+}
+
+.round-div{
+    position: relative;
+    width: 100%;
+    height: 0px;
+    padding-bottom: 100%;
+    overflow: hidden;
+}
+
+.round-img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+
+.round-span{
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    word-break: keep-all;
+    color: rgb(20, 20, 20);
+    margin-top: 8px;
+}
