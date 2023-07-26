@@ -9,55 +9,54 @@
     <a th:href="@{/categories}" class="flex items-center"><i class="fa-solid fa-bars mr-1"></i>전체 카테고리</a>
   </div>
   <hr class="my-3">
-  <div class="carousel w-full">
-    <div id="slide1" class="carousel-item relative w-full">
-      <img th:src="|/image/dummy1.png|" class="w-full" />
+  <div class="carousel w-full rounded-box h-[300px]">
+    <div id="slide1" class="carousel-item relative w-full" style="background-image: url(/image/dummy1.png); background-size: cover;">
       <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <a href="#slide4" class="btn btn-circle">❮</a>
         <a href="#slide2" class="btn btn-circle">❯</a>
       </div>
     </div>
-    <div id="slide2" class="carousel-item relative w-full">
-      <img th:src="|/image/dummy2.png|" class="w-full" />
+    <div id="slide2" class="carousel-item relative w-full" style="background-image: url(/image/dummy2.png); background-size: cover;">
       <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <a href="#slide1" class="btn btn-circle">❮</a>
         <a href="#slide3" class="btn btn-circle">❯</a>
       </div>
     </div>
-    <div id="slide3" class="carousel-item relative w-full">
-      <img th:src="|/image/dummy3.png|" class="w-full" />
+    <div id="slide3" class="carousel-item relative w-full" style="background-image: url(/image/dummy3.png); background-size: cover;">
       <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <a href="#slide2" class="btn btn-circle">❮</a>
         <a href="#slide4" class="btn btn-circle">❯</a>
       </div>
     </div>
-    <div id="slide4" class="carousel-item relative w-full">
-      <img th:src="|/image/dummy4.png|" class="w-full" />
+    <div id="slide4" class="carousel-item relative w-full" style="background-image: url(/image/dummy4.png); background-size: cover;">
       <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <a href="#slide3" class="btn btn-circle">❮</a>
         <a href="#slide1" class="btn btn-circle">❯</a>
       </div>
     </div>
   </div>
-  <ul class="round-menu-ul">
-    <li class="round-menu-li">
-      <a href="/books/recent" class="round-a">
-        <div class="round-div">
-          <img alt="신작" class="round-img" src="https://active.ridibooks.com/quick-menu/light/new.d0c590b8b2fe4f364eadecb600491294.png">
-        </div>
-        <span class="round-span">신작</span>
-      </a>
-    </li>
-    <li class="round-menu-li">
-      <a href="/books/best" class="round-a">
-        <div class="round-div">
-          <img alt="베스트" class="round-img"
-               src="https://active.ridibooks.com/quick-menu/light/bestseller.d954cea8b85b182e7cfbffdb9519bb07.png">
-        </div>
-        <span class="round-span">베스트</span>
-      </a>
-    </li>
-  </ul>
+  <section class="mt-[20px]">
+    <ul class="round-menu-ul">
+      <li class="round-menu-li">
+        <a href="/books/recent" class="round-a">
+          <div class="round-div">
+            <img alt="신작" class="round-img"
+                 src="https://active.ridibooks.com/quick-menu/light/new.d0c590b8b2fe4f364eadecb600491294.png">
+          </div>
+          <span class="round-span">신작</span>
+        </a>
+      </li>
+      <li class="round-menu-li">
+        <a href="/books/best" class="round-a">
+          <div class="round-div">
+            <img alt="베스트" class="round-img"
+                 src="https://active.ridibooks.com/quick-menu/light/bestseller.d954cea8b85b182e7cfbffdb9519bb07.png">
+          </div>
+          <span class="round-span">베스트</span>
+        </a>
+      </li>
+    </ul>
+  </section>
 </main>
 </body>
 </html>
