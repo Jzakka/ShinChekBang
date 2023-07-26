@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Objects;
+
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
@@ -20,7 +22,10 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/member/login")
                         .failureHandler(authenticationFailureHandler))
-                .logout(logout -> logout.logoutUrl("/member/logout"));
+                .logout(logout -> logout.logoutUrl("/member/logout").logoutSuccessHandler((req,res,auth)->{
+                    String referer = req.getHeader("Referer");
+                    res.sendRedirect(Objects.requireNonNullElse(referer, "/"));
+                }));
         return http.build();
     }
 }

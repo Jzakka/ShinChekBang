@@ -1,12 +1,12 @@
 <html layout:decorate="~{common/layout.html}">
 <body>
-<header layout:fragment="header" class="top-0 z-50">
+<header layout:fragment="header" class="top-0 z-50 mt-5">
     <div class="flex m-3 w-full mx-auto">
         <a th:href="@{/}" class="inline-block w-1/2">
             <img class="block h-[40px]" th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
         </a>
         <div class="flex-grow grid justify-items-center">
-            <form th:action="|@{/books}|" method="get" id="bookSearchForm">
+            <form th:action="|@{/books}|" method="get" id="bookSearchForm" class="w-full">
                 <input type="text" id="bookSearch" name="title" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
             </form>
         </div>

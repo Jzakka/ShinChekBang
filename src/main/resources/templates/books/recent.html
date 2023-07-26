@@ -12,12 +12,12 @@
     <hr class="my-3">
     <div class="grid grid-cols-5 gap-4">
         <div th:each="book :${books}">
-            <a th:href="|books/${book.id}|">
+            <a th:href="|/books/${book.id}|">
                 <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
                      class="w-[110px] h-[150px]">
             </a>
             <div>
-                <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
+                <a th:href="|/books/${book.id}|" th:text="${book.title}"></a>
                 <div th:text="${book.author}"></div>
                 <div th:text="${book.price}"></div>
             </div>

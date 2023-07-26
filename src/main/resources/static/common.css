@@ -5,6 +5,10 @@
     font-style: normal;
 }
 
+html {
+    background-color: #ffffff;
+}
+
 html > body {
     font-family: "IBMPlexSansKR-Regular";
 }
@@ -125,4 +129,8 @@ button.myButton {
     word-break: keep-all;
     color: rgb(20, 20, 20);
     margin-top: 8px;
+}
+
+hr {
+    opacity: 0.2;
 }

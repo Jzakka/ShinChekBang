@@ -29,10 +29,13 @@
 <body>
 <div>
     <div class="w-screen">
-        <div class="p-2">
-            <a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a>
-            <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
-            <a sec:authorize="hasAuthority('admin')" th:href="@{/books/new}">도서추가</a>
+        <div class="p-1">
+            <a sec:authorize="isAnonymous()" th:href="@{/member/join}" class="opacity-30 text-xs">회원가입</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/member/login}" class="opacity-30 text-xs">로그인</a>
+            <a sec:authorize="hasAuthority('admin')" th:href="@{/books/new}" class="opacity-30 text-xs">도서추가</a>
+            <a sec:authorize="isAuthenticated()" href="javascript:void(0);" onclick="logout()"
+               class="opacity-30 text-xs">로그아웃</a>
+            <form id="logout" th:action="@{/member/logout}" method="post"></form>
         </div>
         <hr>
     </div>
@@ -43,5 +46,11 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    function logout() {
+        $('#logout').submit();
+    }
+</script>
+
 </body>
 </html>
