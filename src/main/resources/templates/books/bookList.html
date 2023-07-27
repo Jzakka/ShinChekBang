@@ -1,0 +1,48 @@
+<books th:fragment="books(index)">
+  <div class="divide-y divide-slate-400/[.24]">
+    <div th:each="book, loop: ${books}" class="relative flex p-3 gap-2">
+      <p th:if="${index}" th:text="${books.getTotalElements - (books.number*books.size) - loop.index}" class="font-bold text-lg self-center"></p>
+      <div class="relative w-[110px] h-[150px]">
+        <a th:href="|/books/${book.id}|">
+          <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+               class="thumbnail">
+        </a>
+      </div>
+      <div class="relative flex flex-col flex-grow">
+        <a th:href="|/books/${book.id}|" th:text="${book.title}"></a>
+        <p th:text="${book.author}" class="text-xs text-slate-500"></p>
+        <p th:text="|★${book.rate}|" class="text-xs text-orange-600"></p>
+        <p th:text="${book.description}" class="text-sm my-3"></p>
+        <p th:text="|${book.price}원|" class="text-xs text-sky-600"></p>
+      </div>
+    </div>
+  </div>
+  <!-- 페이지 -->
+  <div class="my-10 flex justify-center">
+    <ul class="list-style-none flex">
+      <li>
+        <a href="javascript:void(0);" th:if="${books.hasPrevious()}"
+           th:onclick="|changePage(${books.number-1})|"
+           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
+      </li>
+      <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}"
+          th:if="${books.totalPages > 0 and page>=books.number-5 and page <= books.number+5}">
+        <a href="javascript:void(0);" th:class="${page != books.number} ?
+          'relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white':
+          'relative block rounded bg-neutral-800 px-3 py-1.5 text-sm font-medium text-neutral-50 transition-all duration-300 dark:bg-neutral-900'"
+           th:text="${page}" th:onclick="|changePage(${page})|"></a>
+      </li>
+      <li>
+        <a href="javascript:void(0);" th:if="${books.hasNext()}" th:onclick="|changePage(${books.number+1})|"
+           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">다음</a>
+      </li>
+    </ul>
+  </div>
+  <script>
+    function changePage(page) {
+      let url = new URL(window.location.href);
+      url.searchParams.set('page', page);
+      window.location.href = url.toString();
+    }
+  </script>
+</books>

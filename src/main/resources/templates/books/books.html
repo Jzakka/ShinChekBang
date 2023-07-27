@@ -8,14 +8,15 @@
         <div>
             <ul>
                 <li th:each="parent: ${parentCategories}">
-                    <a th:href="@{|/categories/of/${parent.id}|}" th:text="${parent.name}" class="font-semibold w-full block p-2"
+                    <a th:href="@{|/categories/of/${parent.id}|}" th:text="${parent.name}"
+                       class="font-semibold w-full block p-2"
                        th:classappend="${category.parentCategory.id == parent.id} ? 'text-white rounded-md bg-sky-500/75' : ''"></a>
-                        <ul th:if="${category.parentCategory.id == parent.id}">
-                           <li th:each="child : ${parent.childCategories}">
-                               <a th:href="@{|/categories/${child.id}|}" th:text="${child.name}" class="text-sm p-3"
-                                  th:classappend="${category.id == child.id} ? 'text-sky-500' : 'text-slate-600'"></a>
-                           </li>
-                        </ul>
+                    <ul th:if="${category.parentCategory.id == parent.id}">
+                        <li th:each="child : ${parent.childCategories}">
+                            <a th:href="@{|/categories/${child.id}|}" th:text="${child.name}" class="text-sm p-3"
+                               th:classappend="${category.id == child.id} ? 'text-sky-500' : 'text-slate-600'"></a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -31,42 +32,7 @@
                 <p class="tab-bordered grow"></p>
             </div>
 
-            <div class="divide-y divide-solid">
-                <div th:each="book, loop: ${books}" class="flex p-3 gap-2 items-center">
-                    <p th:text="${books.getTotalElements - (books.number*books.size) - loop.index}" class="font-bold text-lg"></p>
-                    <a th:href="|/books/${book.id}|">
-                        <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
-                             class="w-[110px] h-[150px]">
-                    </a>
-                    <div class="flex-grow">
-                        <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
-                        <p th:text="${book.author}" class="text-xs text-slate-500"></p>
-                        <p th:text="|★${book.rate}|" class="text-xs text-orange-600"></p>
-                        <p th:text="${book.description}" class="text-sm my-3"></p>
-                        <p th:text="|${book.price}원|" class="text-xs text-sky-600"></p>
-                    </div>
-                </div>
-            </div>
-            <!-- 페이지 -->
-            <div class="flex justify-center p-5">
-                <ul class="list-style-none flex">
-                    <li>
-                        <a th:href="@{|?page=${books.number-1}|}" th:if="${books.hasPrevious()}"
-                           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
-                    </li>
-                    <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}"
-                        th:if="${books.totalPages > 0 and page>=books.number-5 and page <= books.number+5}">
-                        <a th:href="@{|?page=${page}|}" th:class="${page != books.number} ?
-          'relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white':
-          'relative block rounded bg-neutral-800 px-3 py-1.5 text-sm font-medium text-neutral-50 transition-all duration-300 dark:bg-neutral-900'"
-                           th:text="${page + 1}"></a>
-                    </li>
-                    <li>
-                        <a th:href="@{|?page=${books.number+1}|}" th:if="${books.hasNext()}"
-                           class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">다음</a>
-                    </li>
-                </ul>
-            </div>
+            <books th:insert="~{books/bookList :: books(true)}"></books>
         </div>
     </div>
 </main>

@@ -53,7 +53,7 @@ public class BookController {
                         Model model) {
         Page<Book> books = bookService.showBooks(title, page);
         model.addAttribute("books", books);
-        return "/books/recent";
+        return "books/recent";
     }
 
 
