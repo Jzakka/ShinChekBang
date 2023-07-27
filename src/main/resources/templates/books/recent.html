@@ -10,26 +10,30 @@
         <a th:href="@{/categories}" class="flex items-center"><i class="fa-solid fa-bars mr-1"></i>전체 카테고리</a>
     </div>
     <hr class="my-3">
-    <div class="grid grid-cols-5 gap-4">
-        <div th:each="book :${books}">
-            <a th:href="|/books/${book.id}|">
-                <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
-                     class="w-[110px] h-[150px]">
-            </a>
-            <div>
-                <a th:href="|/books/${book.id}|" th:text="${book.title}"></a>
-                <div th:text="${book.author}"></div>
-                <div th:text="${book.price}"></div>
+    <div class="divide-y divide-slate-400/[.24]">
+        <div th:each="book, loop: ${books}" class="relative flex p-3 gap-2">
+            <div class="relative w-[110px] h-[150px]">
+                <a th:href="|/books/${book.id}|">
+                    <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                         class="thumbnail">
+                </a>
+            </div>
+            <div class="relative flex flex-col flex-grow">
+                <a th:href="|books/${book.id}|" th:text="${book.title}"></a>
+                <p th:text="${book.author}" class="text-xs text-slate-500"></p>
+                <p th:text="|★${book.rate}|" class="text-xs text-orange-600"></p>
+                <p th:text="${book.description}" class="text-sm my-3"></p>
+                <p th:text="|${book.price}원|" class="text-xs text-sky-600"></p>
             </div>
         </div>
     </div>
 
-    <hr class="my-3">
     <!-- 페이지 -->
-    <div class="flex justify-center">
+    <div class="mt-10 flex justify-center">
         <ul class="list-style-none flex">
             <li>
-                <a href="javascript:void(0);" th:if="${books.hasPrevious()}" th:onclick="|changePage(${books.number-1})|"
+                <a href="javascript:void(0);" th:if="${books.hasPrevious()}"
+                   th:onclick="|changePage(${books.number-1})|"
                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white">이전</a>
             </li>
             <li th:each="page : ${#numbers.sequence(0, books.totalPages-1)}"
