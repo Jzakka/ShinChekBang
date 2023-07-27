@@ -1,0 +1,7 @@
+<div th:fragment="sortFilterTap" class="tabs w-auto mt-4">
+    <a class="tab tab-bordered" th:classappend="${#strings.equals(sort, 'best')} ? 'tab-active'" th:href="|?sort=best|">베스트</a>
+    <a class="tab tab-bordered" th:classappend="${#strings.equals(sort, 'recent')} ? 'tab-active'" th:href="|?sort=recent|">신간</a>
+    <a class="tab tab-bordered" th:classappend="${#strings.equals(sort, 'free')} ? 'tab-active'" th:href="|?sort=free|">무료</a>
+    <a class="tab tab-bordered" th:classappend="${#strings.equals(sort, 'entire')} ? 'tab-active'" th:href="|?sort=entire|">전체</a>
+    <p class="tab-bordered grow"></p>
+</div>

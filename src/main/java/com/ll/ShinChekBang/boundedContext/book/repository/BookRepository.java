@@ -15,7 +15,11 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
 
     Page<Book> findByCategories(Category category, Pageable pageable);
 
+    Page<Book> findByCategoriesAndPrice(Category category, Pageable pageable, int price);
+
     Page<Book> findByCategoriesIsIn(List<Category> categories, Pageable pageable);
+
+    Page<Book> findByCategoriesIsInAndPrice(List<Category> categories, Pageable pageable, int price);
 
     Page<Book> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }

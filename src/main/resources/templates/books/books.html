@@ -24,13 +24,7 @@
             <span class="text-2xl font-normal mb-5 text-gray-400" th:text="|${category.parentCategory.name} >|"></span>
             <span class="text-2xl font-bold mb-5 text-gray-900" th:text="${category.name}"></span>
 
-            <div class="tabs w-auto mt-4">
-                <a class="tab tab-bordered tab-active">베스트</a>
-                <a class="tab tab-bordered">신간</a>
-                <a class="tab tab-bordered">무료</a>
-                <a class="tab tab-bordered">전체</a>
-                <p class="tab-bordered grow"></p>
-            </div>
+            <div th:insert="~{books/sortFilter :: sortFilterTap}"></div>
 
             <books th:insert="~{books/bookList :: books(true)}"></books>
         </div>

@@ -54,6 +54,8 @@ public class OrderService {
         List<Long> bookIds = receipt.getBooks().stream().map(Bill.BookVO::getId).toList();
         List<Book> books = bookRepository.findAllById(bookIds);
 
+        books.forEach(Book::increaseSell);
+
         Order order = Order.builder()
                 .member(member)
                 .books(books)
@@ -97,6 +99,8 @@ public class OrderService {
             List<Long> bookIds = bill.getBooks().stream().map(Bill.BookVO::getId).toList();
             List<Book> books = bookRepository.findAllById(bookIds);
             int paymentAmount = bill.getPaymentAmount();
+
+            books.forEach(Book::increaseSell);
 
             Order order = Order.builder()
                     .member(member)

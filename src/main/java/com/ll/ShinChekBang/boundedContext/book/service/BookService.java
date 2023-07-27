@@ -85,19 +85,32 @@ public class BookService implements BaseService<Book> {
         return addNewBook(title, author, "책 소개가 없습니다.", price, thumbnail, images);
     }
 
-    public Page<Book> findByCategory(Category category, int page) {
+    public Page<Book> findByCategory(Category category, int page, String sortQuery) {
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+        sorts.add(orderBy(sortQuery.toLowerCase()));
         Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
+        if (sortQuery.equals("free")) {
+            return bookRepository.findByCategoriesAndPrice(category, pageable, 0);
+        }
         return bookRepository.findByCategories(category, pageable);
     }
 
-    public Page<Book> findByCategory(ParentCategory parentCategory, int page) {
+    public Page<Book> findByCategory(ParentCategory parentCategory, int page, String sortQuery) {
         List<Category> categories = parentCategory.getChildCategories();
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+        sorts.add(orderBy(sortQuery.toLowerCase()));
         Pageable pageable = PageRequest.of(page, 60, Sort.by(sorts));
+        if (sortQuery.equals("free")) {
+            return bookRepository.findByCategoriesIsInAndPrice(categories, pageable, 0);
+        }
         return bookRepository.findByCategoriesIsIn(categories, pageable);
+    }
+
+    private Sort.Order orderBy(String sortQuery) {
+        if (sortQuery.equals("recent")) {
+            return Sort.Order.desc("createDate");
+        }
+        return Sort.Order.desc("totalSell");
     }
 
     public RsData<Book> seeBook(Member member, Book book) {

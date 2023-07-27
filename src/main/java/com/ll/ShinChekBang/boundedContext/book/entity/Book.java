@@ -49,6 +49,8 @@ public class Book extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<UploadFile> images;
 
+    private int totalSell;
+
     @JsonIgnore
     public float getRate() {
         if (reviews.isEmpty()) {
@@ -103,5 +105,9 @@ public class Book extends BaseEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public int increaseSell() {
+        return ++totalSell;
     }
 }
