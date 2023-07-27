@@ -6,7 +6,7 @@
             <img class="block h-[40px]" th:src="@{/logo/ShinChekBang_logo.png}" alt="신책방">
         </a>
         <div class="flex-grow grid justify-items-center">
-            <form th:action="|@{/books}|" method="get" id="bookSearchForm" class="w-full">
+            <form th:action="|@{/books/search}|" method="get" id="bookSearchForm" class="w-full">
                 <input type="text" id="bookSearch" name="title" placeholder="도서명으로 검색하세요" class="input input-bordered w-5/6 max-w-xs">
             </form>
         </div>

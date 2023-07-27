@@ -48,15 +48,21 @@ public class BookController {
     }
 
     @GetMapping("/recent")
-    public String books(@RequestParam(defaultValue = "0") int page,
-                        @RequestParam(required = false) String title,
-                        Model model) {
-        Page<Book> books = bookService.showBooks(title, page);
+    public String books(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<Book> books = bookService.showBooks(null, page);
         model.addAttribute("books", books);
         return "books/recent";
     }
 
-
+    @GetMapping("/search")
+    public String searchedBooks(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(required = false) String title,
+                                Model model) {
+        Page<Book> books = bookService.showBooks(title, page);
+        model.addAttribute("title", title);
+        model.addAttribute("books", books);
+        return "books/search";
+    }
 
     @PreAuthorize("isAuthenticated() && hasAuthority('admin')")
     @GetMapping("/new")

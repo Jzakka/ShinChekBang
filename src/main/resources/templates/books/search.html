@@ -1,0 +1,14 @@
+<html layout:decorate="~{layout.html}">
+<head>
+    <title th:text="|책 검색|"></title>
+</head>
+<body>
+<main layout:fragment="main">
+
+    <div class="flex flex-col justify-between">
+        <h2 class="text-4xl" th:text="|'${title}' 검색 결과 (${books.totalElements})|"></h2>
+    </div>
+    <books class="mt-5" th:insert="~{books/bookList :: books(false)}"></books>
+</main>
+</body>
+</html>
