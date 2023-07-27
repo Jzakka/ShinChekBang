@@ -1,51 +1,45 @@
 <html layout:decorate="~{layout.html}">
 <head>
-  <title th:text="|판매량 BEST|"></title>
+    <title th:text="|판매량 BEST|"></title>
 </head>
 <body>
 <main layout:fragment="main">
-    <label for="duration">기간선택</label>
-    <select id="duration" name="duration" onchange="renderBestSellers(this.value)">
-        <option value="w">일주일</option>
-        <option value="m">한달</option>
-        <option value="y">일년</option>
-    </select>
-  <div id="bestSeller">
-  </div>
-  <script th:javascript>
-    function bookHtml(book) {
-      return `
-      <a href="/books/${book.id}">
-        <img src="/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}" class="w-[110px] h-[150px]">
-      </a>
-      <div class="flex-grow">
-          <a href="|books/${book.id}|">${book.title}</a>
-          <p class="text-xs text-slate-500">${book.author}</p>
-          <p  class="text-xs text-orange-600">★${book.rate}</p>
-          <p  class="text-sm my-3">${book.description}</p>
-          <p  class="text-xs text-sky-600">${book.price}원</p>
-      </div>
-      `;
-    }
+    <div class="flex justify-between">
+        <h2 class="text-4xl">베스트셀러</h2>
+    </div>
+    <div class="flex mt-10 items-center">
+        <span th:class="${#strings.equals(duration,'w')} ? '':'text-neutral-400'">
+            <a href="/books/best?duration=w">주간 베스트</a>
+        </span>
+        <div class="divider">•</div>
+        <span th:class="${#strings.equals(duration,'m')} ? '':'text-neutral-400'">
+            <a href="/books/best?duration=m">월간 베스트</a>
+        </span>
+        <div class="divider">•</div>
+        <span th:class="${#strings.equals(duration,'y')} ? '':'text-neutral-400'">
+            <a href="/books/best?duration=y">올해 베스트</a>
+        </span>
+    </div>
 
-    function renderBestSellers(duration) {
-      $.ajax({
-        url: `/books/best/api?duration=${duration}`,
-        type: "GET",
-        success: rsData=>{
-          if(rsData.success){
-            $('#bestSeller').empty();
-            rsData.data.forEach(book=>{
-              $('#bestSeller').append(bookHtml(book));
-            })
-          }else{
-            console.log(rsData.msg);
-          }
-        },
-        error: (xhr, text, err) => console.log(text, err)
-      });
-    }
-  </script>
+    <div class="divide-y divide-slate-400/[.24]">
+        <div th:each="book, loop: ${books}" class="relative flex p-3 gap-2">
+            <p th:if="${index}" th:text="${books.getTotalElements - (books.number*books.size) - loop.index}"
+               class="font-bold text-lg self-center"></p>
+            <div class="relative w-[110px] h-[150px]">
+                <a th:href="|/books/${book.id}|">
+                    <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                         class="thumbnail">
+                </a>
+            </div>
+            <div class="relative flex flex-col flex-grow">
+                <a th:href="|/books/${book.id}|" th:text="${book.title}"></a>
+                <p th:text="${book.author}" class="text-xs text-slate-500"></p>
+                <p th:text="|★${book.rate}|" class="text-xs text-orange-600"></p>
+                <p th:text="${book.description}" class="text-sm my-3"></p>
+                <p th:text="|${book.price}원|" class="text-xs text-sky-600"></p>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 </html>

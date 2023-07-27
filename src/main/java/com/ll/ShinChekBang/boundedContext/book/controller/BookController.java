@@ -108,15 +108,15 @@ public class BookController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, bookResult.getMsg());
     }
-
     @GetMapping("/best")
-    public String bestSeller() {
+    public String bestSeller(@RequestParam(defaultValue = "w") Character duration, Model model) {
+        RsData<List<Book>> books = bookService.showTop100(Character.toLowerCase(duration));
+        if (books.isFail()) {
+            model.addAttribute("msg", books.getMsg());
+            return "error/400";
+        }
+        model.addAttribute("duration", duration);
+        model.addAttribute("books", books.getData());
         return "books/best";
-    }
-
-    @GetMapping("/best/api")
-    @ResponseBody
-    public RsData<List<Book>> bestSeller(@RequestParam Character duration) {
-        return bookService.showTop100(Character.toLowerCase(duration));
     }
 }
