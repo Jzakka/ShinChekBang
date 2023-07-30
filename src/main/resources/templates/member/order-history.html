@@ -4,10 +4,8 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:each="order:${orders}">
-        <span th:text="|주문번호:${order.orderId}|"></span>
-        <span th:text="|주문상품:${order.orderedBooks}|"></span>
-        <span th:text="|결제금액:${order.paymentAmount}|"></span>
+    <div th:each="receipt:${orders}" class="mb-3">
+        <div th:replace="~{order/receipt :: receipt}"></div>
     </div>
 </div>
 </body>

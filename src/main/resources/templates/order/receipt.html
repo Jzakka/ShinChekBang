@@ -5,7 +5,7 @@
     <div class="flex flex-col">
         <span th:text="|주문번호 : ${receipt.orderId}|" class="text-emerald-500 font-semibold">주문번호</span>
         <div class="flex-grow flex items-center justify-center">
-            <span class="self-center" th:text="${receipt.orderedBooks}">주문상품</span>
+            <span class="self-center" th:text="${receipt.orderName}">주문상품</span>
         </div>
 
     </div>
