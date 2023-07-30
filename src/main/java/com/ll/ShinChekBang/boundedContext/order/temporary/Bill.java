@@ -1,5 +1,6 @@
 package com.ll.ShinChekBang.boundedContext.order.temporary;
 
+import com.ll.ShinChekBang.base.file.entity.UploadFile;
 import com.ll.ShinChekBang.boundedContext.book.entity.Book;
 import com.ll.ShinChekBang.boundedContext.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class Bill {
     public static class BookVO {
         private long id;
         private String title;
+        private String thumbnail;
         private int price;
     }
 
@@ -37,7 +40,11 @@ public class Bill {
     public Bill(List<Book> books, int paymentAmount) {
         this.id = UUID.randomUUID().toString();
         this.books = books.stream()
-                .map(book -> new Bill.BookVO(book.getId(), book.getTitle(), book.getPrice()))
+                .map(book -> new Bill.BookVO(book.getId(), book.getTitle(),
+                        Optional.ofNullable(book.getThumbnail()).
+                                map(UploadFile::getStoreFileName)
+                                .orElse(null),
+                        book.getPrice()))
                 .toList();
         this.paymentAmount = paymentAmount;
         this.orderName = createOrderName();

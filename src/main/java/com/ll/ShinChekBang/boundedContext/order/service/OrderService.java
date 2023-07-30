@@ -42,7 +42,7 @@ public class OrderService {
     @Transactional
     public RsData<Order> order(Member member, List<Book> orderBooks, int paymentAmount) {
         List<Bill.BookVO> bookVOS = orderBooks.stream()
-                .map(book -> new Bill.BookVO(book.getId(), book.getTitle(), book.getPrice()))
+                .map(book -> new Bill.BookVO(book.getId(), book.getTitle(), book.getTitle(), book.getPrice()))
                 .toList();
         Bill bill = new Bill(UUID.randomUUID().toString(), bookVOS, paymentAmount, member.getUsername() + "의 초기주문");
 

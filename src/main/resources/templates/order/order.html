@@ -6,13 +6,21 @@
 <body>
 <main layout:fragment="main">
     <div class="mx-auto w-4/5 ">
-        <div class="flex justify-between items-start">
-            <div>
+        <div class="flex justify-between items-start gap-2">
+            <div class="w-full">
                 <h2 class="text-2xl font-bold mb-5 text-gray-900">주문 목록</h2>
-                <div th:each="book:${bill.books}">
-                    <span th:text="${book.title}">책 제목</span>
-                    <span th:text="${book.price}">책 가격</span>
-                </div>
+                    <div th:each="book:${bill.books}" class="gap-2 cartItem">
+                        <hr class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-300">
+                        <div class="flex gap-2 mt-3">
+                            <img th:src="|/image/${book.thumbnail != null ? book.thumbnail : 'notfound.png'}|" class="w-[60px] h-[85px]">
+                            <div class="flex-grow max-w-[400px]">
+                                <p th:text="${book.title}"></p>
+                            </div>
+                            <div class="mx-auto flex items-center justify-center">
+                                <p class="align-center mr-3" th:text="|${book.price}원|"></p>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div>
                 <div class="min-w-[290px] h-[240px] border border-blue-300 p-0 flex flex-col justify-around">
