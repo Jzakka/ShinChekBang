@@ -4,11 +4,7 @@
 </head>
 <body>
 <main layout:fragment="main">
-  <div>
-    <span th:text="|주문번호:${receipt.orderId}|"></span>
-    <span th:text="|주문상품:${receipt.orderedBooks}|"></span>
-    <span th:text="|지불금액:${receipt.paymentAmount}|"></span>
-  </div>
+  <div th:insert="~{order/receipt :: receipt}"></div>
 </main>
 </body>
 </html>
