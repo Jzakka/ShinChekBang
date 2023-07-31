@@ -3,7 +3,7 @@
     <title th:text="|결제내역|"></title>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" class="flex-grow">
     <div th:each="receipt:${orders}" class="mb-3">
         <div th:replace="~{order/receipt :: receipt}"></div>
     </div>

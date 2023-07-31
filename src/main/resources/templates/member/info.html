@@ -29,10 +29,12 @@
 
     <div class="grid grid-cols-5 gap-4">
         <div th:each="book : ${recentSeeBooks}" class="flex flex-col gap-2">
-            <a th:href="|books/${book.id}|">
-                <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
-                     class="w-[110px] h-[150px]">
-            </a>
+            <div class="relative w-[110px] h-[150px]">
+                <a th:href="|books/${book.id}|">
+                    <img th:src="|/image/${book.thumbnail != null ? book.thumbnail.storeFileName : 'notfound.png'}|"
+                         class="thumbnail">
+                </a>
+            </div>
             <div>
                 <a th:href="|books/${book.id}|" class="text-sm font-bold" th:text="${book.title}"></a>
                 <div th:text="${book.author}" class="text-sm font-extralight text-neutral-400"></div>
